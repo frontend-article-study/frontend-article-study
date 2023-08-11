@@ -1,6 +1,18 @@
+# what is compound?
+
+compound는 복합체(명사) , 합성의(형용사)로 정의되어있습니다.
+
+
+
 # What is Compound Component?
 
-대표적인 사례로 radix 라이브러리의 코드를 보면 알 수 있습니다.
+즉 compound component는 합성할 수 있는 컴포넌트
+
+혹은 복합체 컴포넌트 정도로 번역할 수 있습니다.
+
+이러한 compound component 패턴을 따르는
+
+대표적인 사례로 radix 라이브러리의 코드를 들 수 있습니다.
 
 ```tsx
 import * as React from 'react';
@@ -21,7 +33,7 @@ const PopoverDemo = () => (
 export default PopoverDemo;
 ```
 
-이러한 컴파운드 컴포넌트 패턴은 복잡한 컴포넌트를 만들기 위해
+컴파운드 컴포넌트 패턴은 복잡한 컴포넌트를 만들기 위해
 
 작은 컴포넌트들을 합성하는 구조로 이루어집니다.
 
@@ -51,6 +63,24 @@ html로 눈을 돌려보면 select와 option의 관계 역시도 compound compon
 2. 변경에서 자유로워진다.
 
 컴파운드 컴포넌트 패턴을 채택한 경우 어떠한 상황에서든 필요에 따른 UI와 기능을 구현할 수 있습니다.
+
+
+compound component 패턴을 사용하는 것은 즉 변경에 유연한 컴포넌트를 만들어야한다.
+
+라는 가치를 따르기 위해서라고 볼 수 있습니다.
+
+
+# what is weakness?
+
+그러나 compound component 패턴은 코드와 구조의 복잡도를 올리는 문제가 있습니다.
+
+즉 풀어야할 문제 , 요구되는 기능이 복잡하지 않다면
+
+평범한 props 넘겨주기 패턴으로 구현하는 것이 더 좋은 경우가 있습니다.
+
+따라서 compound component 패턴은 복잡한 기능을 구현해야 하는 경우
+
+혹은 관심사를 좀 더 엄격하게 분리 하고 싶은 경우에 유용합니다.
 
 
 # 구현 방법
@@ -133,6 +163,95 @@ Modal.Footer = ({ children }: ChildrenProp) => {
 React.Children.toArray()의 반환값은 위와 같은 유니온 형태로 되어있기 때문입니다.
 
 
+# context api와 함께 사용
+
+```tsx
+const ModalContext = createContext({});
+
+const Modal = ({ children }) => {
+  const [isOpened, setIsOpened] = useState(false)
+
+  const childrenArray = React.Children.toArray(children);
+  const header = childrenArray.find(child => child.type === Modal.Header);
+  const body = childrenArray.find(child => child.type === Modal.Body);
+  const footer = childrenArray.find(child => child.type === Modal.Footer);
+
+  return (
+    <ModalContext.Provider value={{ isOpened, setIsOpened }}>
+      <div className="modal">
+        <div className="modal-header">{header}</div>
+        <div className="modal-body">{body}</div>
+        <div className="modal-footer">{footer}</div>
+      </div>
+    </ModalContext.Provider>
+  );
+};
+
+Modal.Header = ({ children }) => {
+  const {setIsOpened} = useContext(ModalContext)
+  return <div className="modal-header">{children}<button onClick={() => setIsOpened(false)}>X</button></div>;
+};
+
+Modal.Body = ({ children }) => {
+  return <div className="modal-body">{children}</div>;
+};
+
+Modal.Footer = ({ children }) => {
+  const {setIsOpened} = useContext(ModalContext)
+  return <div className="modal-footer">{children}<button onClick={() => setIsOpened(false)}>Close</button></div>;
+};​
+```
+
+compound component 패턴을 context api와 함께 사용하는 것을 통하여 props 전달 없이 상태, 정보를 쉽게 공유할 수 있습니다.
+
+
+
+# context api 사용 시 DX 개선
+
+관용적으로 `createContext()`에 전달하는 초기값을 null로 설정하곤 합니다.
+
+이렇게 null로 초기값을 설정해준 경우 `useContext()`를 사용할 때마다
+
+조건문을 이용하여 타입가드를 해주어야만 하는 불편함이 있습니다.
+
+```tsx
+const context = useContext(TabsContext)
+if(context === null) return <></>
+```
+
+이러한 형태로 불필요한 타입가드 코드가 생기게 됩니다.
+
+이를 커스텀훅을 통하여 null 체킹을 수행하는 부분을 분리하는 방법이 있습니다.
+
+```tsx
+const useCustomContext = () => {
+    const context = useContext(TabsContext)
+    if(context === null) {
+        throw new Error('useTabs should be used within Tabs')
+    }
+    return context
+}
+
+```
+
+커스텀 훅을 통하여 이미 널체킹이 끝났기 때문에
+
+커스텀훅을 사용하는 컴포넌트에서는 널체킹 없이 바로 상태를 사용할 수 있습니다.
+
+
+
+# 마치며
+
+compound component는 장점이 명확한 패턴입니다.
+
+그래서 모든 상황에 적용하고 싶어지기 쉽습니다.
+
+`망치를 들면 모든게 못으로 보인다.` 는 말에 주의할 필요가 있습니다.
+
+상황에 따라 적절한 디자인 패턴을 선택하기 위한 노력과 고민이 필요합니다.
+
+물론 적절한 상황에서 compound component 패턴을 활용하는 것은 너무나도 좋은 선택입니다.
+
 
 # 레퍼런스
 
@@ -143,3 +262,5 @@ https://fe-developers.kakaoent.com/2021/211022-react-children-tip/
 https://itchallenger.tistory.com/928
 
 https://react.dev/reference/react/Children#alternatives
+
+https://iyu88.github.io//react/2023/03/25/react-compound-component-pattern.html
