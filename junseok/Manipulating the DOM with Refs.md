@@ -159,6 +159,60 @@ export default function App() {
 - 일반적으로 렌더링 주에는 ref에 접근하는 것을 원하지 않습니다. 따라서 첫 번째 렌더링 중네는 DOM 노드가 생성되지 않았으므로 `ref.current` 는 `null`이 됩니다. 
 - 이후 React는 커밋하는 동안에 `ref.current`를 설정합니다. React는 DOM이 업데이트 되기 전에는 `ref.current`의 값을 `null`로 설정하였다가, DOM이 업데이트된 직후 해당 DOM 노드로 다시 설정합니다.
 
+> ### Flushing state updates synchronously with flushSync
+> - `react-dom` 의 `flushSync`를 사용하면 React 가 DOM을 동기적으로 업데이트 하도록 강제할 수 있습니다. 
+> -  `flushSync`로 감싼 코드가 실행된 직후 React가 DOM을 동기적으로 업데이트하도록 지시합니다.
+>```ts
+> import { useState, useRef } from 'react';
+>import { flushSync } from 'react-dom';
+>
+>export default function TodoList() {
+>  const listRef = useRef(null);
+>  const [text, setText] = useState('');
+>  const [todos, setTodos] = useState(
+>    initialTodos
+>  );
+>
+>  function handleAdd() {
+>    const newTodo = { id: nextId++, text: text };
+>    flushSync(() => {
+>      setText('');
+>      setTodos([ ...todos, newTodo]);      
+>    });
+>    listRef.current.lastChild.scrollIntoView({
+>      behavior: 'smooth',
+>      block: 'nearest'
+>    });
+>  }
+>
+>  return (
+>    <>
+>      <button onClick={handleAdd}>
+>        Add
+>      </button>
+>      <input
+>        value={text}
+>        onChange={e => setText(e.target.value)}
+>      />
+>      <ul ref={listRef}>
+>        {todos.map(todo => (
+>          <li key={todo.id}>{todo.text}</li>
+>        ))}
+>      </ul>
+>    </>
+>  );
+>}
+>
+>let nextId = 0;
+>let initialTodos = [];
+>for (let i = 0; i < 20; i++) {
+>  initialTodos.push({
+>    id: nextId++,
+>    text: 'Todo #' + (i + 1)
+>  });
+>}
+>```
+
 ## Best practices for DOM manipulation with refs
 - state를 통해 관리하는 DOM node와 ref를 통해 인위적으로 관리하는 DOM node를 구분해야 합니다. 
 - 만약 state와 ref로 관리하는 DOM node가 동일하다면, react에서는 ref를 통해 관리하는 DOM node가 무엇인지 알지 못하기 때문에 오류가 발생할 수 있습니다. 
