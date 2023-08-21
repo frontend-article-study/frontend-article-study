@@ -17,4 +17,4 @@ VDOM과 DOM을 비교하여 DOM에 삽입합니다.  DOM에 삽입하는 과정�
 DOM 업데이트가 완료가 되면 Commit Phase이 끝나며 DOM을 토대로 브라우저 화면을 그리게 됩니다. 화면에 그려지는 것을 페인트한다라고 표현합니다. 
 
 ## React 의 패키지 구조
-react는 크게 5가지 패키지로 나눌 수 있습니다. 컴포넌트 정의와 관련있는 react 코어, DOM에 플랫폼과 관련있는 renderer, 비동기로 실행되어야 할 작업들을 Task 형태로 우선순위 스케줄링하는 schedular, VDOM의 재조정일을 하는 등 핵심 패키지인 reconciler입니다.  
+react는 크게 5가지 패키지로 나눌 수 있습니다. 컴포넌트 정의와 관련있는 react 코어, renderer, 비동기로 실행되어야 할 작업들을 Task 형태로 우선순위 스케줄링하는 schedular, VDOM의 재조정일을 하는 등 핵심 패키지인 reconciler입니다.  
