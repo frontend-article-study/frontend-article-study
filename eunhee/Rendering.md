@@ -8,9 +8,9 @@ react가 코드를 화면에 그리는 단계를 크게 3단계 Trigger Phase, R
 화면에 그려야 한다는 Trigger가 발동합니다.
 ### Render Phase
 컴포넌트를 호출 후 react element를 반환합니다. react element는 VDOM의 노드객체인 fiber로 확장되고 VDOM이 재조정됩니다. 
+
 *"랜더링과정"은 정확히 "컴포넌트를 호출 후 VDOM이 재조정되기"까지를 의미합니다.
-? 해당 jsx로 작성했다면 바벨을 통한 jsx-> js 과정은 언제 일어나는 지 ? 
--> 렌더시점 이전인 빌딩시점에 일어난다는 이야기를 듣고 바벨 동장원리를 공부하거3
+
 ### Commit Phase
 VDOM과 DOM을 비교하여 DOM에 삽입합니다.  DOM에 삽입하는 과정을 마운트한다라고 표현합니다.   
 
