@@ -1,9 +1,8 @@
 *v16.12.0 버전 함수형 컴포넌트와 브라우저 환경을 기준입니다.
 > author: 이은희<br/>date: 2023/08/21
 
-## React는 어떤 과정을 거쳐 jsx element를 화면에 그리나요?
-*대부분의 사람들이 React 프레임워크내에 jsx 문법으로 코드를 작성하기에 jsx 문법으로 코드를 작성했다 가정했습니다.
-react가 JSX Element를 화면에 그리는 단계를 크게 3단계 Trigger Phase, Render Phase,Commit Phase로 나눌 수 있습니다.   
+## React는 어떤 과정을 거쳐 코드를 화면에 그리나요?
+react가 코드를 화면에 그리는 단계를 크게 3단계 Trigger Phase, Render Phase,Commit Phase로 나눌 수 있습니다.   
 
 ### Trigger Phase
 화면에 그려야 한다는 Trigger가 발동합니다.
