@@ -18,5 +18,11 @@ DOM fragment 로만 필요한 작업들을 한번에 묶어서 던져줄 수 �
 *선언적 API란 DOM 관리를 Virtual DOM에 위임하여, 컴포넌트가 DOM을 조작할 때 다른 컴포넌트의 DOM 조작 상태를 공유할 필요가 없다는 것이다.
 
 
+
 ### 요약
 Virtual DOM은 무조건적으로 좋은 것은 아니지만, 대체적으로 좋은 성능을 보여주고 선언적이고 상태 중심 UI 개발이 가능해짐
+
+### 참고
+https://joong-sunny.github.io/react/react2/
+https://flykimjiwon.tistory.com/138
+https://www.youtube.com/watch?v=PN_WmsgbQCo&t=243s
