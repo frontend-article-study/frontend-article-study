@@ -3,6 +3,12 @@ Virtual DOM (VDOM)은 UI의 이상적인 또는 “가상”적인 표현을 메
 
 - 실제 DOM oject과 같은 속성을 담고 있는 복사본. 
 - 실제 DOM 과는 달리  html 객체에 기반한 JS 객체 형태로 메모리 안에 저장
+ ```html
+<ul id="items">
+  <li>Item 1</li>
+</ul>
+```
+  
   ```js
   let domNode = {
     tagName : "ul",
