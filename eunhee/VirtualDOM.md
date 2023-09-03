@@ -35,7 +35,12 @@ DOM fragment 로만 필요한 작업들을 한번에 묶어서 던져줄 수 �
 
 *선언적 API란 DOM 관리를 Virtual DOM에 위임하여, 컴포넌트가 DOM을 조작할 때 다른 컴포넌트의 DOM 조작 상태를 공유할 필요가 없다는 것이다.
 
-
+### 동작 과정 
+1. 전체 virtual DOM이 업데이트된다.
+2. virtual DOM을 업데이트 이전의 시점과 비교한다.
+3. 실제 바뀐 부분만 real DOM에 바꾼다.
+4. real DOM에서의 변화가 스크린에 그려진다.
+   
 ```jsx
 function Component(){
  return (
