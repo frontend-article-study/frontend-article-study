@@ -73,6 +73,7 @@ DOM 요소의 가상 버전.
 - 가볍다.
 - 상태를 가지지 않는다.
 -  불변성을 가진다.
+
 React element는 render에 의해 확장 객체인 fiber로 변환되어 실제 DOM 요소가 된다.
 ```js
 const element = React.creatElement("div",{
@@ -80,7 +81,16 @@ const element = React.creatElement("div",{
 },React.createElement("h1",null,"Hello Crews!"));
 
 React.DOM.render(element, document.getElementByID("root"));
-``` 
+```
+부분적으로 변경이 발생했을 때는 모든 VDOM Object 를 업데이트하고 이전 VDOM 스냅샷과 비교하여 정확히 어떤 부분이 바뀌였는 지 검사합니다. 이 과정을 Diffing 알고리즘을 통해 계산됩니다. 
+
+*Diffing
+virtual DOM이 업데이트되면 React는 virtual DOM을 업데이트 이전의 virtual DOM 스냅샷과 비교하여 정확히 어떤 Virtual DOM이 바뀌었는지 검사한다. ->리액트의 재조정과정에 해당한다.
+
+- element 속성값만 변한 경우: 속성 값만 업데이트
+- element 태그, 컴포넌트가 변경된 경우: 해당 노드를 포함한 하위 모든 노드를 제거 unmount 후 새로운 vdom 노드로 대체
+
+
 ### 요약
 Virtual DOM은 무조건적으로 좋은 것은 아니지만, 대체적으로 좋은 성능을 보여주고 선언적이고 상태 중심 UI 개발이 가능해짐
 
