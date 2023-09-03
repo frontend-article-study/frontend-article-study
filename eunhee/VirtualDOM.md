@@ -106,4 +106,4 @@ https://joong-sunny.github.io/react/react2/
 
 https://flykimjiwon.tistory.com/138
 
-https://www.youtube.com/watch?v=PN_WmsgbQCo&t=243s
+[https://www.youtube.com/watch?v=PN_WmsgbQCo&t=243s](https://www.youtube.com/watch?v=6rDBqVHSbgM)https://www.youtube.com/watch?v=6rDBqVHSbgM
