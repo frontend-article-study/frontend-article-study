@@ -34,6 +34,8 @@ DOM fragment의 변화를 묶어서 적용한 다음 기존 DOM에 던져주는 
 DOM fragment 로만 필요한 작업들을 한번에 묶어서 던져줄 수 있지만 해당 과정을 하나하나 작업하지 않고 Vitual DOM을 통해 자동화, 추상화하여,일반적으로 빠른 성능과 함께 위 React 공식문서에서 말하고 있는 선언적 API를 가능하게 하는 것, 상태 중심 UI 개발을 상태 전환에 대해 생각하지 않고 개발할 수 있는 것이 Virtual DOM의 핵심이다.
 
 *선언적 API란 DOM 관리를 Virtual DOM에 위임하여, 컴포넌트가 DOM을 조작할 때 다른 컴포넌트의 DOM 조작 상태를 공유할 필요가 없다는 것이다.
+
+
 ```jsx
 function Component(){
  return (
@@ -66,8 +68,19 @@ const element = {
  }
 }
 ```
+### React element
+DOM 요소의 가상 버전. 
+- 가볍다.
+- 상태를 가지지 않는다.
+-  불변성을 가진다.
+React element는 render에 의해 확장 객체인 fiber로 변환되어 실제 DOM 요소가 된다.
+```js
+const element = React.creatElement("div",{
+ className: "tech-course"
+},React.createElement("h1",null,"Hello Crews!"));
 
-
+React.DOM.render(element, document.getElementByID("root"));
+``` 
 ### 요약
 Virtual DOM은 무조건적으로 좋은 것은 아니지만, 대체적으로 좋은 성능을 보여주고 선언적이고 상태 중심 UI 개발이 가능해짐
 
