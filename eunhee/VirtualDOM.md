@@ -34,7 +34,38 @@ DOM fragment의 변화를 묶어서 적용한 다음 기존 DOM에 던져주는 
 DOM fragment 로만 필요한 작업들을 한번에 묶어서 던져줄 수 있지만 해당 과정을 하나하나 작업하지 않고 Vitual DOM을 통해 자동화, 추상화하여,일반적으로 빠른 성능과 함께 위 React 공식문서에서 말하고 있는 선언적 API를 가능하게 하는 것, 상태 중심 UI 개발을 상태 전환에 대해 생각하지 않고 개발할 수 있는 것이 Virtual DOM의 핵심이다.
 
 *선언적 API란 DOM 관리를 Virtual DOM에 위임하여, 컴포넌트가 DOM을 조작할 때 다른 컴포넌트의 DOM 조작 상태를 공유할 필요가 없다는 것이다.
-
+```jsx
+function Component(){
+ return (
+  <div className="tech-course">
+    <h1> Hello Crews!</h1>
+  </div>
+);
+}
+```
+바벨은 jsx 를 다음과 같이 React.createElement() 호출로 컴파일한다.
+```js
+function Component(){
+ return React.creatElement("div",{
+ className: "tech-course"
+},React.createElement("h1",null,"Hello Crews!"));
+}
+```
+ React.createElement()로 생성된 react elements는 내부적으로 다음과 같은 객체로 표현될 수 있다.
+```js
+const element = {
+ type: "div",
+ props: {
+  className: "tech-course",
+  children: [
+    {
+      type: "h1",
+      children: "Hello Crew!"
+    }
+  ]
+ }
+}
+```
 
 
 ### 요약
