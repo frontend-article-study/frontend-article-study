@@ -24,5 +24,7 @@ Virtual DOM은 무조건적으로 좋은 것은 아니지만, 대체적으로 �
 
 ### 참고
 https://joong-sunny.github.io/react/react2/
+
 https://flykimjiwon.tistory.com/138
+
 https://www.youtube.com/watch?v=PN_WmsgbQCo&t=243s
