@@ -48,8 +48,8 @@ DOM fragment 로만 필요한 작업들을 한번에 묶어서 던져줄 수 �
 https://goidle.github.io/static/258b43ce623e7b6340fc6aed969199ed/374ac/vDOM.png
 
 virtual DOM은 간단히 말해 DOM차원의 '더블 버퍼링 개념'을 말한다.
-이것은 변경사항을 한꺼번에 실제 브라우저의 DOM에 반영하는 방식입니다.
-DOM을 직접 조작하는 행위는 브라우저에게 각 조작마다 reflow와 repaint하게 만든다. virtual DOM은 브라우저가 해석하는 대상이 아니기 때문에 reflow와 repaint를 수행하지 않는다. 예를들어 DOM을 100번 조작하는 경우가 생기면 virtual DOM은 이것을 Batch Queue(Batch:묶음)에 모아둔 후에 이것들을 모두 처리하고나서 한꺼번에 업데이트 사항을 브라우저의 DOM에 반영한다. 결과적으로 1번만 DOM을 다시 그리고도 100번의 업데이트 사항을 모두 반영하게 되는 것이다.
+DOM에 마운트된 current 트리와 Render phase에서 작업 중인 workInProgress 트리로 나뉘어 있습니다. 이 workInProgress 트리는 Commit phase를 지나면 current 트리로 관리됩니다. 이렇듯 더블 버퍼링 형태이기 때문에 리액트는 workInProgress에 작업을 하다가도 언제든지 버리고 처음부터 다시 작업하거나 또는 중지시켰다가 다시 시작하는 등 작업 우선순위에 맞게 유연하게 대처할 수 있기에 사용자 경험을 최우선적으로 고려할 수 있습니다.
+
 
 두개의 트리를 비교할때 리액트는 비교알고리즘(Diffing Algorithm)을 사용한다.
 
