@@ -44,7 +44,9 @@ DOM fragment 로만 필요한 작업들을 한번에 묶어서 던져줄 수 �
   ```
 
 
-### virtual DOM이 일반DOM과 달리 변화를 감지하는 과정
+### 더블 버퍼링 
+https://goidle.github.io/static/258b43ce623e7b6340fc6aed969199ed/374ac/vDOM.png
+
 virtual DOM은 간단히 말해 DOM차원의 '더블 버퍼링 개념'을 말한다.
 이것은 변경사항을 한꺼번에 실제 브라우저의 DOM에 반영하는 방식입니다.
 DOM을 직접 조작하는 행위는 브라우저에게 각 조작마다 reflow와 repaint하게 만든다. virtual DOM은 브라우저가 해석하는 대상이 아니기 때문에 reflow와 repaint를 수행하지 않는다. 예를들어 DOM을 100번 조작하는 경우가 생기면 virtual DOM은 이것을 Batch Queue(Batch:묶음)에 모아둔 후에 이것들을 모두 처리하고나서 한꺼번에 업데이트 사항을 브라우저의 DOM에 반영한다. 결과적으로 1번만 DOM을 다시 그리고도 100번의 업데이트 사항을 모두 반영하게 되는 것이다.
