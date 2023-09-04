@@ -48,7 +48,7 @@ function Incrementer() {
   );
 }
 ```
-하지만 VDOM에 영향을 주지 않는 값은 여전히 React state입니다. -> effect를 트리거하기 위해서
+VDOM에 영향을 주지 않는 값도 React state입니다. -> effect를 트리거하기 위해서
 ```jsx
 function TitleRandomizer() {
   const [title, setTitle] = useState('');
