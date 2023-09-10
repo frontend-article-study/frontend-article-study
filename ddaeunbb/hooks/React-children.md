@@ -254,3 +254,8 @@ function Only({ children }) {
 ```
 
 위와 같이 자식이 하나라도 HTML 요소나 React 요소가 아니면 오류가 발생하게 됩니다.
+<br>
+
+### ✏️ 참고링크
+
+https://www.daleseo.com/react-children/
