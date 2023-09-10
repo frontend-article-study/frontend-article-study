@@ -58,9 +58,9 @@ export default function App() {
 
 그리고 나아가 생각하면 fiber node라는 것을 알고 있습니다.
 
-그리고 이 fiber node에는 memorizedState라는 속성이 존재하며 이는 linked list 입니다.
+그리고 이 fiber node에는 memoizedState라는 속성이 존재하며 이는 linked list 입니다.
 
-또한 컴포넌트의 각 훅들은 이 memorizedState라는 링크드 리스트의 Node에 해당하며
+또한 컴포넌트의 각 훅들은 이 memoizedState라는 링크드 리스트의 Node에 해당하며
 
 해당 Node에서 자신의 값에 접근합니다.
 
@@ -73,7 +73,7 @@ const exampleFiber = {
     index : 0,
     lanes : 0,
     flags : 1540,
-    memorizedState : node1 -> node2 -> node3
+    memoizedState : node1 -> node2 -> node3
 }
 
 const Component = () => {
@@ -91,7 +91,7 @@ const Component = () => {
 
 ```
 
-그리고 컴포넌트에 존재하는 각각의 훅들은 자신의 memorizedState에 접근하여 로직을 완료합니다.
+그리고 컴포넌트에 존재하는 각각의 훅들은 자신의 memoizedState에 접근하여 로직을 완료합니다.
 
 
 # 차근차근 생각해보기
@@ -158,10 +158,9 @@ function updateEffectImpl(fiberFlags, hookFlags, create, deps) {
             }
         }
     }
+    currentlyRenderFiber$1.flags |= fiberFlags
+    hook.memoizedState = pushEffect(HasEffect | hookFlags, create, destroy, nextDeps)
 } 
-
-currentlyRenderFiber$1.flags |= fiberFlags
-hook.memoizedState = pushEffect(HasEffect | hookFlags, create, destroy, nextDeps)
 
 ```
 
@@ -307,7 +306,7 @@ areHookInputsEqual은 true를 반환할테니까요
 
 이제 알 수 있는 것을 크게 두가지로 정리할 수 있습니다.
 
-1. useEffect와 같은 훅들은 fiber node의 memorizedState의 데이터에 접근합니다.
+1. useEffect와 같은 훅들은 fiber node의 memoizedState의 데이터에 접근합니다.
 
 2. 훅은 deps가 같은지 비교하고 콜백함수의 실행 여부를 결정합니다.
 
