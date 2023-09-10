@@ -1,28 +1,14 @@
-Context API
+### Context API
 리액트에서 제공하는 React 컴포넌트 트리 안에서 전역 상태를 전달 및 공유할 수 있는 기능 입니다. 주로 전역 상태를 공유할 때 사용하지만 반드시 전역적으로 필요는 없습니다. 또  context API는 단순히 리액트 컴포넌트간에 값들을 공유하는 일만 하며, 주로  useState 와 같이 사용해 useState가 *상태관리를, context API 가 Props가 아닌 방식으로 값을 공유하는 역할을 합니다. 따라서 context API는 "상태 관리"도구가 아님을 유의해야 합니다. context API는 파이프 같은 역할로 props Drilling 을 막을 수 있지만 남용하면 컴포넌트를 재사용하기 어려울 수 있어 주의하여 사용해야 합니다. Context API는 상태가 Context Tree 내부에 포함된 다른 컴포넌트들과 공유되는 방식입니다. 그래서 새로운 상태 값을 생성 할 때 해당 Context 내부에 포함된  컴포넌트들이 상태 값의 일부에만 관심이 있더라도 re-render 되므로 성능 문제가 발생할 수 있습니다. (왜 인지는 몰?루 )
-
 즉, Context API 를 활용한 전역 상태관리는 단순하게 Props Drilling을 피하고 싶고 낮은 규모와 낮은 빈도의 업데이트 경우, 단순히 값을 공유할 때 사용하는 것이 좋습니다.
-
- 
 
 *상태관리: 시간이 지남에 따라 상태가 변경되는 데이터를 관리하는 것을 말합니다. 초기 값을 저장하고, 값 읽기, 업데이트 등을 하는 일들을 통들어 상태관리한다라고 표현합니다.
 
- 
-
 * 왜 재사용하기 어렵냐 !  몰?루
 
- 
-
-
-
- 
-
- 
-
-그렇다면 Redux는?
+### 그렇다면 Redux는?
 Redux는 전역 상태관리를 위한 도구이며, Context API와 비교했을 때 보다 더 폭넓은 기능을 제공하고 특정 구성 요소만 re-render 시키거나, 사이드이펙트를 줄일 수 있습니다. 하지만 Context API에 비해 작성해야 하는 코드의 길이도 많고, 또 복잡하다는 단점이 있습니다. 그래서  Context API보다는  여러 위치에서 많은 양의 상태 관리와 대규모의 프로젝트, 그리고 더 강력한 기능이 필요할 때 리덕스를 사용하면 좋습니다.
-
- 더 강력하고 폭넓은 리덕스 기능으로는 
+####  더 강력하고 폭넓은 리덕스 기능으로는 
 1. 로컬스토리지에 상태를 영속적으로 저장하고, 시작할 때 다시 불러오는 것에 뛰어나다.
 
 2. 상태를 Server에서 미리 채워서, HTML에 담아 Client로 보내고, 앱을 시작할 때 다시 불러오는 것에 뛰어나다.
@@ -39,30 +25,15 @@ Redux는 전역 상태관리를 위한 도구이며, Context API와 비교했을
 
 8. 비즈니스 로직을 대부분 재사용하면서 UI를 변경할 수 있게 한다.
 
- 그럼 리덕스보다 가벼운 라이브러리 Recoil과 비교한다면?
+### 그럼 리덕스보다 가벼운 라이브러리 Recoil과 비교한다면?
 Recoil은 상태관리 라이브러리로, 리덕스보다는 가볍지만 리덕스 store의 상태들처럼 구독(subscribe)할 수 있고 Atom의 상태가 변경되면 구독하고 있는 컴포넌트들이 다시 렌더링되면서 변경된 Atom의 상태를 공유합니다.  또한 Recoil은 변경된 Atom의 상태를 공유하고 있는 컴포넌트만 리렌더링 되므로, Context API처럼 쓸모없는 리렌더링이 계속 일어나지 않습니다.  또다른 장점으로는 동시성 모드(Concurrent Mode) 와같은  React와 개발 방향성이 같다는 점.  비동기 처리를 간단하게 할 수 있고  내부적으로 캐싱이 된다는 점이 있습니다. 반면 단점으로는 캐싱관련문제, 안전성에 대한 우려, 리덕스의 devtools 만큼 훌륭한 디버깅툴의 부재, 아직도 많은 실험적인 API들이 있습니다.
-
  Recoil은  contextApi에 대한 보안제이자,  서버 데이터를 신뢰할 수 있게 하는 상태관리로, 정보가 서버에서 들어오고 거의 변화하지 않는 값들을 관리해줄 때 Recoil이 적당하고 생각합니다.
-
-
  
-출처 
+### 출처 
 https://ko.legacy.reactjs.org/docs/context.html
 
 https://bum-developer.tistory.com/entry/React-Context-API-%EC%96%B8%EC%A0%9C-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC%ED%95%A0%EA%B9%8C
-
- 
-[React] Context API 언제 사용해야할까?
-
-앞서 Context API에 대한 글을 몇개 작성했다. 하지만 결국 Context API를 언제 사용해야 하는지 이런 부분에 대해서는 결론에 도달하지 못했다. Redux vs Context 는 정말 많은 이야기가 있지만 정작 어떤
-
 bum-developer.tistory.com
 https://velog.io/@dldngus5/TILReact-%EC%83%81%ED%83%9C%EA%B4%80%EB%A6%AC-%EA%B3%A0%EB%AF%BC-Context-Recoil
 
- 
-[TIL][React] 상태관리 고민 (Context, Recoil)
-
-개발중인 시스템에서 react-query를 도입하며 redux를 제거하기로 했다 (최소화 하고싶지만) 여전히 글로벌 상태값이 필요한 케이스(서버에서 받아오지 않음, 구독기능이 필요함)들을 어떻게 처리할
-
-velog.io
 https://velog.io/@ckstn0777/Context-API%EC%9D%98-%EC%B5%9C%EB%8C%80-%EB%8B%A8%EC%A0%90%EC%9D%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C
