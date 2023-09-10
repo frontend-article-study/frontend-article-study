@@ -199,3 +199,58 @@ function Count({ children }) {
 Children API의 `toArray()`함수는 자식을 일반 자바스크립트 배열로 변환해주는데요. 자식을 상대로`join( )`, `reverse( )`, `sort( )`, `filter( )`, `reduce( )`와 같은 자바스크립트 배열에서 제공하는 함수를 사용하고 싶을 때 유용합니다.
 
 예를 들어, 홀수 번째 자식만 화면에 그려주는 컴포넌트를 작성해보겠습니다.
+
+```jsx
+function ToArray({ children }) {
+  const array = React.Children.toArray(children);
+  return array.filter((child, i) => i % 2 === 0);
+}
+```
+
+작성한 ToArray 컴포넌트의 자식으로 다음과 같은 6개의 문자열을 사용해보면, 화면에 AAA, CCC, EEE만 나타나게 됩니다.
+
+```jsx
+<ToArray>
+  {"AAA"}
+  {"BBB"}
+  {"CCC"}
+  {"DDD"}
+  {"EEE"}
+  {"FFF"}
+</ToArray>
+```
+
+### 📌 Children.only()
+
+Children API의 `only()` 함수는 컴포넌트에 자식이 하나만 넘어왔는지 검증하고 싶을 때 사용할 수 있는데요. 만약에 자식이 없거나 여러 개의 자식이 넘어왔다면 다음과 같은 오류가 발생하기 때문입니다.
+
+예를 들어, 자식이 하나가 아닌 경우에 오류를 발생시키는 컴포넌트를 작성해보겠습니다.
+
+```jsx
+function Only({ children }) {
+  return React.Children.only(children);
+}
+```
+
+이 Only 컴포넌트는 자식이 하나일 때만 정상 작동하게 됩니다.
+
+```jsx
+/* 정상 작동 (AAA 표시) */
+<Only>
+  <span>AAA</span>
+</Only>
+
+/* 오류 */
+<Only>
+  <span>AAA</span>
+  <span>BBB</span>
+</Only>
+
+/* 오류 */
+<Only/>
+
+/* 오류 (하나의 자식이지만 문자열임) */
+<Only>AAA</Only>
+```
+
+위와 같이 자식이 하나라도 HTML 요소나 React 요소가 아니면 오류가 발생하게 됩니다.
