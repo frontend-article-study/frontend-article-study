@@ -295,12 +295,6 @@ function areHookInputsEqual(nextDeps, prevDeps) {
 
 이펙트 실행 여부를 결정하는지 알았습니다.
 
-그리고 왜 빈배열을 전달하면 한번만 실행되는지도 알 수 있죠!
-
-빈배열이라면 정상적인 상황에서 위의 모든 if문에도 걸리지않으며
-
-areHookInputsEqual은 true를 반환할테니까요
-
 
 # 결론을 향해
 
