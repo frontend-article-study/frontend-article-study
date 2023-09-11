@@ -1,10 +1,23 @@
 ### Context API
-리액트에서 제공하는 React 컴포넌트 트리 안에서 전역 상태를 전달 및 공유할 수 있는 기능 입니다. 주로 전역 상태를 공유할 때 사용하지만 반드시 전역적으로 필요는 없습니다. 또  context API는 단순히 리액트 컴포넌트간에 값들을 공유하는 일만 하며, 주로  useState 와 같이 사용해 useState가 *상태관리를, context API 가 Props가 아닌 방식으로 값을 공유하는 역할을 합니다. 따라서 context API는 "상태 관리"도구가 아님을 유의해야 합니다. context API는 파이프 같은 역할로 props Drilling 을 막을 수 있지만 남용하면 컴포넌트를 재사용하기 어려울 수 있어 주의하여 사용해야 합니다. Context API는 상태가 Context Tree 내부에 포함된 다른 컴포넌트들과 공유되는 방식입니다. 그래서 새로운 상태 값을 생성 할 때 해당 Context 내부에 포함된  컴포넌트들이 상태 값의 일부에만 관심이 있더라도 re-render 되므로 성능 문제가 발생할 수 있습니다. (왜 인지는 몰?루 )
-즉, Context API 를 활용한 전역 상태관리는 단순하게 Props Drilling을 피하고 싶고 낮은 규모와 낮은 빈도의 업데이트 경우, 단순히 값을 공유할 때 사용하는 것이 좋습니다.
+리액트 버전 16부터  리액트에서 제공하는 React 컴포넌트 트리 안에서 전역 상태를 전달 및 공유할 수 있는 내장 API 입니다. 주로 전역 상태를 공유할 때 사용하지만 반드시 전역적으로 필요는 없습니다. 또  context API는 단순히 리액트 컴포넌트간에 값들을 공유하는 일만 하며, 주로  useState 와 같이 사용해 useState가 *상태관리를, context API 가 Props가 아닌 방식으로 값을 공유하는 역할을 합니다. 따라서 context API는 "상태 관리"도구가 아님을 유의해야 합니다. context API는 파이프 같은 역할로 props Drilling 을 막을 수 있지만 남용하면 컴포넌트를 재사용하기 어려울 수 있어 주의하여 사용해야 합니다. Context API는 상태가 Context Tree 내부에 포함된 다른 컴포넌트들과 공유되는 방식입니다. 그래서 새로운 상태 값을 생성 할 때 해당 Context 내부에 포함된  컴포넌트들이 상태 값의 일부에만 관심이 있더라도 re-render 되므로 성능 문제가 발생할 수 있습니다. (왜 이런게 만든거야잉)
 
-*상태관리: 시간이 지남에 따라 상태가 변경되는 데이터를 관리하는 것을 말합니다. 초기 값을 저장하고, 값 읽기, 업데이트 등을 하는 일들을 통들어 상태관리한다라고 표현합니다.
+즉, Context API 를 활용한 전역 상태관리는 단순하게 Props Drilling을 피하고 싶고 낮은 규모와  자주 업데이트할 필요가 없는 경우, 단순히 값을 공유할 때 사용하는 것이 좋습니다.
 
-* 왜 재사용하기 어렵냐 !  몰?루
+정확히는 다음과 같은 데이터일때 사용하기 좋다고 하네요
+
+- 테마 데이터 (다크 모드 혹은 라이트 모드)
+- 사용자 데이터 (현재 인증된 사용자)
+- 로케일 데이터 (언어 혹은 지역)
+
+  ![img](https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcL5Mb3%2FbtstwGs25ME%2Fi7LhUzmo6kJAfQ5twdWhHk%2Fimg.png)
+ 
+### Context API 를 사용하는 법.
+createContext 메서드를 사용해 context를 생성한다.
+생성된 context를 가지고 context provider로 컴포넌트 트리를 감싼다.
+value prop을 사용해 context provider에 원하는 값을 입력한다.
+useContext를 통해 필요한 컴포넌트에서 그 값을 조회할 수 있다.
+
+
 
 ### 그렇다면 Redux는?
 Redux는 전역 상태관리를 위한 도구이며, Context API와 비교했을 때 보다 더 폭넓은 기능을 제공하고 특정 구성 요소만 re-render 시키거나, 사이드이펙트를 줄일 수 있습니다. 하지만 Context API에 비해 작성해야 하는 코드의 길이도 많고, 또 복잡하다는 단점이 있습니다. 그래서  Context API보다는  여러 위치에서 많은 양의 상태 관리와 대규모의 프로젝트, 그리고 더 강력한 기능이 필요할 때 리덕스를 사용하면 좋습니다.
@@ -37,3 +50,5 @@ bum-developer.tistory.com
 https://velog.io/@dldngus5/TILReact-%EC%83%81%ED%83%9C%EA%B4%80%EB%A6%AC-%EA%B3%A0%EB%AF%BC-Context-Recoil
 
 https://velog.io/@ckstn0777/Context-API%EC%9D%98-%EC%B5%9C%EB%8C%80-%EB%8B%A8%EC%A0%90%EC%9D%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C
+
+## 참고 예제
