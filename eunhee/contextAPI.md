@@ -9,7 +9,7 @@
 - 사용자 데이터 (현재 인증된 사용자)
 - 로케일 데이터 (언어 혹은 지역)
 
-  ![img](https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcL5Mb3%2FbtstwGs25ME%2Fi7LhUzmo6kJAfQ5twdWhHk%2Fimg.png)
+  ![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcL5Mb3%2FbtstwGs25ME%2Fi7LhUzmo6kJAfQ5twdWhHk%2Fimg.png)
  
 ### Context API 를 사용하는 법.
 createContext 메서드를 사용해 context를 생성한다.
