@@ -1,7 +1,7 @@
 ### Context API
 리액트 버전 16부터  리액트에서 제공하는 React 컴포넌트 트리 안에서 전역 상태를 전달 및 공유할 수 있는 내장 API 입니다. 주로 전역 상태를 공유할 때 사용하지만 반드시 전역적으로 필요는 없습니다. 또  context API는 단순히 리액트 컴포넌트간에 값들을 공유하는 일만 하며, 주로  useState 와 같이 사용해 useState가 *상태관리를, context API 가 Props가 아닌 방식으로 값을 공유하는 역할을 합니다. 따라서 context API는 "상태 관리"도구가 아님을 유의해야 합니다. context API는 파이프 같은 역할로 props Drilling 을 막을 수 있지만 남용하면 컴포넌트를 재사용하기 어려울 수 있어 주의하여 사용해야 합니다. Context API는 상태가 Context Tree 내부에 포함된 다른 컴포넌트들과 공유되는 방식입니다. 그래서 새로운 상태 값을 생성 할 때 해당 Context 내부에 포함된  컴포넌트들이 상태 값의 일부에만 관심이 있더라도 re-render 되므로 성능 문제가 발생할 수 있습니다. (왜 이런게 만든거야잉)
 
-즉, Context API 를 활용한 전역 상태관리는 <span style="color:blue"> 단순하게 Props Drilling을 피하고 싶고 낮은 규모와  자주 업데이트할 필요가 없는 경우, 단순히 값을 공유<span>할 때 사용하는 것이 좋습니다.
+즉, Context API 를 활용한 전역 상태관리는 <span style="color:blue"> 단순하게 Props Drilling을 피하고 싶고 낮은 규모와  자주 업데이트할 필요가 없는 경우, 단순히 값을 공유</span>할 때 사용하는 것이 좋습니다.
 
 정확히는 다음과 같은 데이터일때 사용하기 좋다고 하네요
 
