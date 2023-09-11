@@ -10,14 +10,72 @@
 - 로케일 데이터 (언어 혹은 지역)
 
   ![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcL5Mb3%2FbtstwGs25ME%2Fi7LhUzmo6kJAfQ5twdWhHk%2Fimg.png)
- 
+ ![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbUOVbT%2Fbtstw3Io6dX%2FsgtOCaIvw5sBA5fEknBplk%2Fimg.png)
 ### Context API 를 사용하는 법.
 createContext 메서드를 사용해 context를 생성한다.
 생성된 context를 가지고 context provider로 컴포넌트 트리를 감싼다.
 value prop을 사용해 context provider에 원하는 값을 입력한다.
 useContext를 통해 필요한 컴포넌트에서 그 값을 조회할 수 있다.
+  ```jsx
+//userContext.js
+import { createContext, useContext, useState } from "react";
 
+const initial = {
+  id: "leh",
+  name: "연습",
+};
 
+const UserContext = createContext(); //1. createContext 메서드를 사용해 context를 생성
+// createContext()매게변수로 넣어주는 것과13 줄 하단에 value로 넘어주는 것차이는 ?
+
+export function UserProvider({ children }) {
+  const [state, setState] = useState(initial); // useState 로 감싼 이유 -> 상태관리를 위해/Provider 상위 컴포넌트가 리렌더링되더라도 initialState는 바뀌지 않도록, 참조 동일성을 유지하도록 하기 위해 사용
+
+  //2. context를 가지고 context provider로 컴포넌트 트리를 감싼다.
+  //3. value prop을 사용해 context provider에 원하는 값을 입력
+  return <UserContext.Provider value={state}>{children}</UserContext.Provider>;
+}
+export function useUserContext() {
+  const context = useContext(UserContext); // context 조회
+  if (context === null) {
+    throw new Error("useUserContext must be used within UserProvider");
+  }
+  return context;
+}
+```
+```jsx
+//Playground.js -> app.js와 연결됨
+import { useState } from "react";
+import { UserProvider, useUserContext } from "./userContext";
+
+function UserComponent() {
+  console.log("UserComponent render");
+  const userContext = useUserContext();
+  //context 조회 가장 가까이에 있는 provider value 값으로 보여준다
+
+  return (
+    <div style={{ border: "1px solid red" }}>
+      UserComponent
+      <h2>user id : {userContext.id}</h2>
+      <h2>user id : {userContext.name}</h2>
+    </div>
+  );
+}
+
+export default function Playground() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <UserProvider>
+        <UserComponent />
+      </UserProvider>
+      <button onClick={() => setCount(count + 1)}>count {count}</button> 
+    </>
+  );
+}
+
+```
 
 ### 그렇다면 Redux는?
 Redux는 전역 상태관리를 위한 도구이며, Context API와 비교했을 때 보다 더 폭넓은 기능을 제공하고 특정 구성 요소만 re-render 시키거나, 사이드이펙트를 줄일 수 있습니다. 하지만 Context API에 비해 작성해야 하는 코드의 길이도 많고, 또 복잡하다는 단점이 있습니다. 그래서  Context API보다는  여러 위치에서 많은 양의 상태 관리와 대규모의 프로젝트, 그리고 더 강력한 기능이 필요할 때 리덕스를 사용하면 좋습니다.
