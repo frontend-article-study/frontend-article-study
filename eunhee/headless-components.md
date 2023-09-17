@@ -66,6 +66,17 @@ const useToggle = (init = false) => {
 };
 ```
 ## Component 기반 UI 라이브러리 vs Headless UI 라이브러리
+|라이브러리 |정의|종류|장점|단점|
+|------|---|---|---|---|
+|Component 기반 UI 라이브러리|기능과 스타일이 존재하는 라이브러리|Material UI, Ant Design|바로 사용할 수 있는 마크업과 스타일이 존재
+설정이 거의 필요 없음|마크업을 자유롭게 할 수 없음
+스타일은 대부분 라이브러리에 있는 테마 기반으로만 변경할 수 있어 한정적임
+큰 번들 사이즈|
+|Headless UI 라이브러리|기능은 있지만 스타일이 없는 라이브러리|Headless UI, Radix UI, Reach UI|마크업과 스타일을 완벽하게 제어 가능
+모든 스타일링 패턴 지원(ex. CSS, CSS-in-JS, UI 라이브러리 등)
+작은 번들 사이즈|추가 설정이 필요함
+마크업, 스타일 혹은 테마 모두 지원되지 않음 |
+
 Component 기반 UI 라이브러리는 기능과 스타일이 존재하는 라이브러리를 말하며, 대표적으로 Material UI, Ant Design가 있다.
 
 장점	
