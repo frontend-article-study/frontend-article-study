@@ -17,6 +17,12 @@
 </div>
 </div>
 
+<figure class="half">
+  <a href="link"><img src="./img/toggleComponent.png" alt="토글 컴포넌트"  ></a>
+  <a href="link"><img src="./img/dropdownComponent.png"  alt="드롭다운 컴포넌트"></a>
+  <figcaption>2개이미지.</figcaption>
+</figure>
+
 토글 컴포넌트 코드입니다. 
 ```jsx
 const ToggleButton = () => {
