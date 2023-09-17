@@ -1,7 +1,7 @@
 # 헤드리스 컴포넌트를 사용한 클린 코드 접근법
 
 ## 즉 두 개의 유사한 컴포넌트에서 ‘useToggle’ 훅을 추출하여 코드 중복을 줄이는 방법
-여기 토글 컴포넌트와 드롭다운 컴포넌트가 있습니다. 두가지 컴포넌트의 코드를 살펴보고 ‘useToggle’ 훅을 추출해봅시다.
+여기 토글 컴포넌트와 드롭다운 컴포넌트가 있습니다. 두가지 컴포넌트의 코드를 살펴보고 ‘useToggle’ 훅을 추출해봅시다. 하단 두개의 사진에서 보이는 것처럼 토글 컴포넌트와 드롭다운 컴포넌트의 모양은 달라보입니다. 하지만 이 두가지 컴포넌트 코드 로직에는 명백한 유사성이 있습니다. ToggleButton의 ‘on’ 과 ‘off’ 상태는 Dropdown의 ‘펼치기(expand)’ 와 ‘접기(collapse)’ 작업과 유사합니다. 따라서 각각의 UI와 공통이되는 로직을 분리하여 커스텀 훅을 다음과 같이 작성할 수 있습니다. 
 <br/>
 **토글 컴포넌트**
 <br/>
@@ -47,7 +47,7 @@ const Dropdown = ({ title, children }: DropdownType) => {
   );
 };
 ```
-이 두가지 컴포넌트 코드는 명백한 유사성이 있습니다. ToggleButton의 ‘on’ 과 ‘off’ 상태는 Dropdown의 ‘펼치기(expand)’ 와 ‘접기(collapse)’ 작업과 유사합니다. 따라서 각각의 UI와 공통이되는 로직을 분리하여 커스텀 훅을 다음과 같이 작성할 수 있습니다. 
+공통이되는 로직을 분리하여 만든 useToggle 커스텀 훅
 ```jsx
 const useToggle = (init = false) => {
   const [state, setState] = useState(init);
