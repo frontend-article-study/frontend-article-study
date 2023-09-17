@@ -69,17 +69,63 @@ const useToggle = (init = false) => {
 |라이브러리 |정의|종류|장점|단점|
 |------|---|---|---|---|
 |Component 기반 UI 라이브러리|기능 0 스타일 0|Material UI, Ant Design|바로 사용할 수 있는 마크업과 스타일이 존재 설정이 거의 필요 없음|마크업을 자유롭게 할 수 없고 스타일은 대부분 라이브러리에 있는 테마 기반으로만 변경할 수 있어 한정적임 큰 번들 사이즈|
-|Headless UI 라이브러리|기능 0 스타일 x |Headless UI, Radix UI, Reach UI|마크업과 스타일을 완벽하게 제어 가능 모든 스타일링 패턴 지 (ex. CSS, CSS-in-JS, UI 라이브러리 등) 작은 번들 사이즈|추가 설정이 필요함 마크업, 스타일 혹은 테마 모두 지원되지 않음 |
+|Headless UI 라이브러리|기능 0 스타일 x |Headless UI, Radix UI, Reach UI|마크업과 스타일을 완벽하게 제어 가능 모든 스타일링 패턴 지원 (ex. CSS, CSS-in-JS, UI 라이브러리 등) 작은 번들 사이즈|추가 설정이 필요함 마크업, 스타일 혹은 테마 모두 지원되지 않음 |
 
-## Headless 의 대표 라이브러리 Downshift 
-헤드리스 컴포넌트 패턴을 사용하여 동작(또는 상태 관리)과 표현을 분리한 대표적인 라이브러리입니다. 
-
-
+## Headless components 패턴의 대표 라이브러리 Downshift 
+UI를 렌더링하지 않고 동작과 상태를 관리하는 헤드리스 컴포넌트의 개념을 적용한 대표적인 라이브러리입니다. *Render Prop과 Hooks 방식을 모두 지원합니다. 
 
 
+*💡 Render props pattern 이란?
+render props는 코드의 재사용성을 높임과 동시에, 관심사의 분리를 이룰 수 있도록 만들어주는 패턴 render props란 props에 넘겨주는 값이 JSX요소를 반환하는 함수는 prop을 말한다.
+
+ 
+### 사용법
+설치
+```shell
+$ npm i downshift
+```
+적용
+ ```jsx
+import { useSelect } from "downshift"
+
+const StateSelect = () => {
+  const {
+    isOpen,
+    selectedItem,
+    getToggleButtonProps,
+    getLabelProps,
+    getMenuProps,
+    highlightedIndex,
+    getItemProps,
+  } = useSelect({items: states});
+
+  return (
+    <div>
+      <label {...getLabelProps()}>Issued State:</label>
+      <div {...getToggleButtonProps()} className="trigger" >
+        {selectedItem ?? 'Select a state'}
+      </div>
+      <ul {...getMenuProps()} className="menu">
+        {isOpen &&
+          states.map((item, index) => (
+            <li
+              style={
+                highlightedIndex === index ? {backgroundColor: '#bde4ff'} : {}
+              }
+              key={`${item}${index}`}
+              {...getItemProps({item, index})}
+            >
+              {item}
+            </li>
+          ))}
+      </ul>
+    </div>
+  )
+}
+```
 
 # 정리 
-디자인이 그렇게 중요하지 않고, 커스텀할 곳이 많지 않다면 Component 기반 라이브러리를 사용하면 된다. 하지만 만약 반응형에 따라 디자인이 달라지고, 기능 변경이나 추가가 많이 발생한다면 Headless 라이브러리가 유지보수에 더 좋을 것 같다.
+디자인이 그렇게 중요하지 않고, 커스텀할 곳이 많지 않다면 Component 기반 라이브러리를,  하지만 만약 반응형에 따라 디자인이 달라지고, 기능 변경이나 추가가 많이 발생한다면 Headless 라이브러리가 유지보수에 더 좋다는 입장입니다.
 
 혹은 회사에 디자이너가 없거나 기한이 촉박한 프로젝트라면, 아예 특정 UI 라이브러리만을 사용해서 만드는 경우도 있다.
 
