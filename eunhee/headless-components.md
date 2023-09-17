@@ -3,15 +3,19 @@
 ## 즉 두 개의 유사한 컴포넌트에서 ‘useToggle’ 훅을 추출하여 코드 중복을 줄이는 방법
 여기 토글 컴포넌트와 드롭다운 컴포넌트가 있습니다. 두가지 컴포넌트의 코드를 살펴보고 ‘useToggle’ 훅을 추출해봅시다.
 <br/>
+<div display="flex">
+<div>
 토글 컴포넌트
 <br/>
 <img src="./img/toggleComponent.png" alt="토글 컴포넌트" width="300" >
+  </div>
+<div>
 <br/>
 드롭다운 컴포넌트
 <br/>
 <img src="./img/dropdownComponent.png" alt="드롭다운 컴포넌트"  width="300" >
-
-![드롭다운컴포넌트](./img/dropdownComponent.png){: width="100" height="100"}
+</div>
+</div>
 
 토글 컴포넌트 코드입니다. 
 ```jsx
