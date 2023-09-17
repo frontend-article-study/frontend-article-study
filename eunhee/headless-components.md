@@ -4,7 +4,7 @@
 여기 토글 컴포넌트와 드롭다운 컴포넌트가 있습니다. 두가지 컴포넌트의 코드를 살펴보고 ‘useToggle’ 훅을 추출해봅시다.
 <br/>
 토글 컴포넌트
-![토글컴포넌트](./img/toggleComponent.png){: width="100" height="100"}
+<img src="./img/toggleComponent.png" width="300" height="300">
 <br/>
 드롭다운 컴포넌트
 ![드롭다운컴포넌트](./img/dropdownComponent.png){: width="100" height="100"}
