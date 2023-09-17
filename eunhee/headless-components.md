@@ -140,10 +140,6 @@ const StateSelect = () => {
 
 # 정리 
 디자인이 그렇게 중요하지 않고, 커스텀할 곳이 많지 않다면 Component 기반 라이브러리를,  하지만 만약 반응형에 따라 디자인이 달라지고, 기능 변경이나 추가가 많이 발생한다면 Headless 라이브러리가 유지보수에 더 좋다는 입장입니다.
-
-### 출처
-(번역) React에서 UI와 로직 분리하기:헤드리스 컴포넌트를 사용한 클린 코드 접근법
-https://soobing.github.io/react/decoupling-ui-and-logic-in-react-a-clean-code-approach-with-headless-components/
-
-headless 컴포넌트 
-https://www.howdy-mj.me/design/headless-components
+## Reference
+- [(번역) React에서 UI와 로직 분리하기:헤드리스 컴포넌트를 사용한 클린 코드 접근법](https://react-ko.dev/learn/passing-props-to-a-component/)
+- [headless 컴포넌트](https://www.howdy-mj.me/design/headless-components)
