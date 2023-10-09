@@ -32,29 +32,31 @@ function App() {
 export default App;
 ```
 <img width="253" alt="image" src="https://github.com/XionWCFM/react-article-study/assets/82435813/ae743b54-d9f5-4234-8c69-f84a9db2d430">
+<br/>
+
 ## 활용
 리액트에서 THREE 가 어떻게 동작하는 지 알았습니다. 직접 3D 모델링하여 렌더할 수 있겠지만 이미 만들어진 3D 모델을 가져와 적용해 볼 수 있어야겠죠. 무료 3D 모델링을 지원하는 사이트와 교육용 레파지토리가 있지만 그 중에서 sketchfab를 이용했습니다.  원하는 3D 모델을 골라 glTF파일로 다운로드합니다. 
-- 스케치팹 
+-  스케치팹 
 https://sketchfab.com/feed
 - 교육용 레파지토리
 https://github.com/drcmda/floating-shoe/tree/master/resources/gltf
 
-https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F31TX1%2FbtsxtXi4oKn%2FT29Gy4ICJgqRE7oUajGA51%2Fimg.png
+![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F31TX1%2FbtsxtXi4oKn%2FT29Gy4ICJgqRE7oUajGA51%2Fimg.png)
 
 *glTF? 3차원 장면과 모델을 표현하는 파일 포맷으로  JSON 형식으로 구성되어 있습니다.
-https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb6H9TL%2FbtsxtUmlKoZ%2F3HKpgOu4k7GSnEJHnkMGg0%2Fimg.png
+![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb6H9TL%2FbtsxtUmlKoZ%2F3HKpgOu4k7GSnEJHnkMGg0%2Fimg.png)
 
 압축을 풀면 다음과 같은 파일들을 볼 수 있습니다.  터미널을 켜 glTF파일이 있는 경로에 들어가 npx gltfjsx 파일명.gltf 명령어를 실행합니다. 해당 명령어는  glTF파일를 적용할 수 있는 js 파일을 자동 생성합니다. 리액트 프로젝트 public 폴더안에 license.txt와 생성된 자바스크립트파일 scene.jsx를 제외한 파일들을 넣습니다. 
 ```bash
 npx gltfjsx 파일명.gltf
 ```
-https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdVOmW6%2Fbtsxz0UciUB%2FdCUwLHZ7pIWZBk9CqoMkU1%2Fimg.png
+![img2](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdVOmW6%2Fbtsxz0UciUB%2FdCUwLHZ7pIWZBk9CqoMkU1%2Fimg.png)
 
-https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcjd1gX%2Fbtsxp2svmcT%2FKeKsQ3lG5BqsTAW6DLMiLK%2Fimg.png
+![img2](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcjd1gX%2Fbtsxp2svmcT%2FKeKsQ3lG5BqsTAW6DLMiLK%2Fimg.png)
 
-https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FYp6pf%2Fbtsxtmwx0Gz%2FaGurQE1HhJuHlFBuau3lD0%2Fimg.png
+![img2](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FYp6pf%2Fbtsxtmwx0Gz%2FaGurQE1HhJuHlFBuau3lD0%2Fimg.png)
 
-https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc0OmgS%2Fbtsxtldjvpu%2FtFtHWiUWqE2jvl3J8oZAN1%2Fimg.png
+![img2](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fc0OmgS%2Fbtsxtldjvpu%2FtFtHWiUWqE2jvl3J8oZAN1%2Fimg.png)
 
 npx gltfjsx scene.gltf  명령어로 만들어진 Scene.jsx 를 열어 살펴봅시다.  @react-three/drei 에 useGLTF 를 가져와 public 폴더에 있는 gltf파일을 가져와 해당 3d 객체를  Model 컴포넌트로 만들어졌습니다.다음과같이  다른 파일로 분리할 수 있지만  구조를 쉽게 파악하기 위해 App.jsx에  Model 컴포넌트를 복사해 적용했습니다. 
 ```jsx
@@ -138,7 +140,6 @@ export default App
 ![GIFMaker_me](https://github.com/XionWCFM/react-article-study/assets/82435813/16c825b0-7246-4d76-9ea5-39f602ef2b9e)
 
 ## 출처
-https://www.youtube.com/watch?v=2jwqotdQmdQ&t=1476s 
-https://docs.fileformat.com/ko/3d/gltf/
-
-https://velog.io/@iepppop/react-three.js-%EC%A0%81%EC%9A%A9%EB%B2%95
+- [Working with GLTF models in React.js](https://www.youtube.com/watch?v=2jwqotdQmdQ&t=1476s)
+- [GLTF 파일이란](https://docs.fileformat.com/ko/3d/gltf/)
+- [react three.js 적용법](https://velog.io/@iepppop/react-three.js-%EC%A0%81%EC%9A%A9%EB%B2%95)
