@@ -1,4 +1,4 @@
-#frontend article study
+# frontend article study
 
 본 레포지토리는 frontend article study 를 진행하며 발생하는 md 문서들을 모아둔 레포지토리입니다.
 
