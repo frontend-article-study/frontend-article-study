@@ -187,3 +187,28 @@ jsx의 규칙이 아니라 prettier의 규칙입니다.
 prettier는 태그가 포함된 JSX 구문을 좀 더 쉽게 읽히도록 하기 위해 이런 규칙을 두었다고하네요
 
 
+### JSXFragment
+
+값으로 별도 속성을 갖지 않는 형태의 JSX 요소가 들어갈 수 있습니다.
+
+즉 비어있는 형태의 <></>를 attribute로 넣는것도 okay 입니다.
+
+
+## JSXChildren
+
+JSXElement의 자식의 값을 나타냅니다.
+
+JSX는 트리구조를 나타내기 위해 만들어졌기 때문에 JSX로 부모 자식 관계를 나타낼수 있는데요
+
+그 자식관계를 JSXChildren이라고합니다.
+
+이 JSXChildren은 또 내부적으로 여러가지 기본 단위를 가지는데요..
+
+### JSXChild
+
+JSXChildren을 이루는 기본단위입니다.
+
+단어의 차이에서 예상할 수 있듯이 JSXChildren은 JSXChild를 0개 이상 가질 수 있습니다.
+
+### JSXText
+
