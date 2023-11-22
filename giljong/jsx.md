@@ -6,7 +6,6 @@ jsx가 포함된 코드를 아무런 처리 없이 실행하면 에러가 발생
 
 따라서 jsx를 실행하기 위해서는 별도의 트랜스파일러를 거쳐야만 합니다.
 
-
 # jsx는 왜 쓰나요?
 
 jsx는 다양한 트랜스파일러에서 다양한 속성을 가진 트리 구조를 토큰화하여 ECMAScript로 변환하는 것을 초점에 둡니다.
@@ -15,12 +14,9 @@ jsx는 다양한 트랜스파일러에서 다양한 속성을 가진 트리 구�
 
 개발자에게 문법적인 편의성을 제공합니다.
 
-
 # jsx의 구성
 
 jsx는 기본적으로 JSXElement , JSXAttributes , JSXChildren , JSXStrings 네가지 컴포넌트를 기반으로 구성되어있습니다.
-
-
 
 ## JSXElement
 
@@ -54,14 +50,11 @@ JSXOpeningElement가 끝났다는 것을 알리는 요소입니다. 반드시 �
 
 조금 생소하지만 막상 읽어보면 당연하게 쓰고있는 녀석들입니다.
 
-
-
 # jsx에는 컴포넌트가 대문자로 시작해야한다는 제약이 없다.
 
 컴포넌트는 대문자로 시작해야한다는 제약은 리액트에서 자체적으로 제공하는 제약인데요
 
 이것은 기본 html 과 리액트 컴포넌트를 원활히 구분하기 위한 제약입니다.
-
 
 # JSXElementName
 
@@ -69,13 +62,13 @@ JSXElementName은 JSXElement의 요소이름으로 쓸 수 있는 것을 의미�
 
 이름으로 가능한 것은 다음과 같은데요
 
-## JSXIdentifier 
+## JSXIdentifier
 
 JSX 내부에서 사용할 수 있는 식별자를 의미합니다.
 
 자바스크립트의 식별자 규칙과 동일한데요
 
-숫자로 시작하거나 $,  _ 외의 다른 특수문자로는 시작할 수 없습니다.
+숫자로 시작하거나 $, \_ 외의 다른 특수문자로는 시작할 수 없습니다.
 
 ## JSXNamespacedName
 
@@ -84,7 +77,6 @@ JSXIdentifier:JSXIdentifier의 조합이라고 할 수 있습니다. :를 통해
 :로 묶을 수 있는 것은 한개 뿐이며 두개 이상은 올바른 식별자로 취급되지 않습니다.
 
 이거 이해하기가 좀 빡셀 수 있는데 예시를 보면 이해가 조금 쉽습니다.
-
 
 ```tsx
 
@@ -111,7 +103,6 @@ JSXidentifier.JSXIdentifier의 조합입니다.
 <foo:bar.baz></foo:bar.baz> // 이건 불가능
 ```
 
-
 # JSXAttributes
 
 JSXElement에 부여할 수 있는 속성을 의미합니다.
@@ -131,4 +122,68 @@ JSXElement에 부여할 수 있는 속성을 의미합니다.
 속성을 나타내는 키와 값으로 짝을 이루어서 표현합니다.
 
 키는 JSXAttributeName , 값은 JSXAttributeValue로 불립니다.
+
+### JSXAttributeName
+
+속성의 키 값입니다. 여기서도 마찬가지로 :를 이용하여 키를 나타낼 수 있는데요
+
+```tsx
+function valid1() {
+  return <foo.bar foo:bar="baz"></foo.bar>;
+}
+```
+
+### JSXAttributeValue
+
+속성의 키에 할당할 수 있는 값입니다.
+
+밸류는 조금 까다로운 면이 있는데 다음 조건을 만족해야합니다.
+
+#### "큰따옴표로 구성된 문자열"
+
+#### '작은 따옴표로 구성된 문자열'
+
+문자열 내부에 아무 내용이 없어도 괜찮습니다.
+
+#### { AssignmentExpression }
+
+자바스크립트의 표현식을 의미합니다.
+
+즉 자바스크립트에서 변수에 할당할 수 있는 표현식이라면 JSX 속성 값으로도 가능합니다.
+
+#### JSXElement
+
+다른 JSX 요소가 들어갈수도 있습니다.
+
+리액트에서는 보기 힘든 코드지만 이런 형태도 가능합니다.
+
+```tsx
+function Child({attribute}) {
+    return <div>{attribute}</div>
+}
+
+export default function App() {
+    return (
+        <div>
+            <Child attribute=<div>hello</div>>
+        </div>
+    )
+}
+
+```
+
+굉장히 어색하게 느껴지는데 사실 이렇게 써도 됩니다.
+
+이게 어색한 이유는 보통 다른 jsx를 attribute로 넣을때에는 중괄호로 감싸주었기 때문일것입니다.
+
+```tsx
+<Card item={<div>hello</div>} />
+```
+
+이렇게요 그런데 사실 이렇게 중괄호로 감싸주는 것은
+
+jsx의 규칙이 아니라 prettier의 규칙입니다.
+
+prettier는 태그가 포함된 JSX 구문을 좀 더 쉽게 읽히도록 하기 위해 이런 규칙을 두었다고하네요
+
 
