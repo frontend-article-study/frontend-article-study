@@ -18,32 +18,32 @@ React Native에서 제공하는 View, Image, Text를 사용해야합니다.
 - android, ios 앱으로 빌드 할 수 있습니다.
 
 React를 알고 있다고 가정했을 때
-java 또는 kotlin 과 object-c 또는 swift를 배우지 않고 뻐르게 개발할 수 있는 방법중 하나라고 생각합니다.
+java 또는 kotlin 과 object-c 또는 swift를 배우지 않고 빠르게 개발할 수 있는 방법중 하나라고 생각합니다.
 
 
 ## Expo
 
-React Native를 처음 개발 할 때 어느정도 서치를 해보면, Expo라는 키워드가 자주 나옵니다
+React Native를 처음 개발 할 때 어느 정도 서치를 해보면, Expo라는 키워드가 자주 나옵니다
 
 Expo란 React Native로 개발 할 때 사용할 수 있는 라이브러리라고 할 수 있습니다.
 
-Expo를 사용하고, 안하고 개발 방식에 차이가 있습니다만,
+Expo를 사용하고, 안 하고 개발 방식에 차이가 있습니다만,
 React Native의 기능을 더 단순화 시켰다고 생각하시면 됩니다.
 
 기존 React Native 개발
-- 네이티브 빌드를 필수적으로 처리해야함.
-=> 실제 Android Studio, Xcode의 사용법을 알아야함.
-- Gradle, CocoaPod 같은 네이티브 패키지 매니저도 관리해야함.
-=> 똑같은 프로젝트고, npm install 까지 했어도, 네이티브 패키지에 따라 다른 결과가 나올 수 있음.
-- 네이티브 폴더 android, ios 폴더를 직접 관리해야함.
+- 네이티브 빌드를 필수적으로 처리해야 함.
+=> 실제 Android Studio, Xcode의 사용법을 알아야 함.
+- Gradle, CocoaPod 같은 네이티브 패키지 매니저도 관리해야 함.
+=> 똑같은 프로젝트고, npm install까지 했어도, 네이티브 패키지에 따라 다른 결과가 나올 수 있음.
+- 네이티브 폴더 android, ios 폴더를 직접 관리해야 함.
 
 Expo를 사용하면,
-이러한 네이티브 부분을 신경쓰지 않고, 좀 더 js스럽게 관리할 수 있습니다.
+이러한 네이티브 부분을 신경 쓰지 않고, 좀 더 js스럽게 관리할 수 있습니다.
 
 
 ## 비교
 
-그림과 비유로 간단하게 React & Expo의 전체적인 개발 프로세스 그리고 차이점을 설명드리겠습니다.
+그림과 비유로 간단하게 React & Expo의 전체적인 개발 프로세스 그리고 차이점을 설명하겠습니다.
 
 <img width="559" alt="스크린샷 2023-12-06 오후 11 31 22" src="https://github.com/outsung/frontend-article-study/assets/40460655/543e4de0-346f-49dd-ab07-792789adfdda">
 
@@ -55,7 +55,7 @@ Expo도 결국 React Native 기반이기 때문에 요런 구조는 동일합니
 js 부분에서 View 태그를 사용해 레이아웃을 잡았다고 가정하면,
 해당 View는 android, ios에 *미리 정의된* `UIView` (ios), `android.view` (android) 으로 변경됩니다.
 
-View 뿐만이 아니라, 핸드폰 후레쉬 키는 함수, 카메라 키는 함수, 파일 가져오는 함수 ... 등등 네이티브 부분에 먼저 정의된 기능을 js에서 불러와서 사용할 수 있습니다.
+View 뿐만이 아니라, 핸드폰 플래시 켜는 함수, 카메라 키는 함수, 파일 가져오는 함수 ... 등등 네이티브 부분에 먼저 정의된 기능을 js에서 불러와서 사용할 수 있습니다.
 그래서 네이티브한 부분이 변경되면, 다시 빌드를 해서 *미리 정의*를 해둬야 합니다.
 
 
@@ -97,4 +97,4 @@ Expo의 dev-client를 사용하시면됩니다.
 
 dev-client는 ExpoGo에 나만의 네이티브 모듈을 추가한 Custom Expo Go 입니다.
 
-네이티브 부분이 수정되었다면, 그때 딱 한번 dev-client를 사용해서 네이티브 부분을 빌드하면 ExpoGo 사용하시는 것과 동일하게 사용이 가능합니다.
+네이티브 부분이 수정되었다면, 그때 딱 한 번 dev-client를 사용해서 네이티브 부분을 빌드하면 ExpoGo 사용하시는 것과 동일하게 사용이 가능합니다.
