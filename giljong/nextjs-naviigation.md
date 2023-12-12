@@ -37,7 +37,11 @@ popstate 이벤트가 발생하면 상태를 적절히 업데이트하는 형태
 
 # 그러면 next.js는 어떻게 라우터를 구현해서 spa를 구현하고 있는걸까?
 
-저는 사실 바텀업형태로
+저는 사실 바텀업형태로 봤지만 간략하게 다루는데에는 탑다운 형태가 더 편할 것 같아서
+
+거의 최상단의 코드부터 가져와봤습니다.
+
+아래 코드는 app-router.tsx입니다.
 
 packages/next/src/client/components/app-router.tsx
 
@@ -76,7 +80,106 @@ return (
 );
 ```
 
-# next.js navigation
+리턴되는 JSX 코드만 보아도 next.js의 구현을 대략적으로 예측할 수 있습니다.
+
+1. next.js가 제공하는 기능들은 그냥 ContextApi로 구현되어있다.
+
+2. pathname, searchParams 와 같은 이름을 가진 컨텍스트들이 있는것으로 미루어보아
+
+브라우저 히스토리 / url과 관련된 로직 역시 context api를 통하여 관리하고있다
+
+3. 히스토리 / url을 리액트 상태와 동기화하고 있는 곳이 어딘가에는 존재할 것이다.
+
+라는 것을 예상할 수 있습니다.
+
+그 전에 AppRouterContext.Provider에 들어가는 appRouter 밸류가 뭔지 궁금하니까
+
+그거만 살짝 봐보겠습니다.
+
+```tsx
+const appRouter = useMemo<AppRouterInstance>(() => {
+  const routerInstance: AppRouterInstance = {
+    back: () => window.history.back(),
+    forward: () => window.history.forward(),
+    prefetch: (href, options) => {
+      // Don't prefetch for bots as they don't navigate.
+      // Don't prefetch during development (improves compilation performance)
+      if (
+        isBot(window.navigator.userAgent) ||
+        process.env.NODE_ENV === 'development'
+      ) {
+        return;
+      }
+      const url = new URL(addBasePath(href), window.location.href);
+      // External urls can't be prefetched in the same way.
+      if (isExternalURL(url)) {
+        return;
+      }
+      startTransition(() => {
+        dispatch({
+          type: ACTION_PREFETCH,
+          url,
+          kind: options?.kind ?? PrefetchKind.FULL,
+        });
+      });
+    },
+    replace: (href, options = {}) => {
+      startTransition(() => {
+        navigate(href, 'replace', options.scroll ?? true);
+      });
+    },
+    push: (href, options = {}) => {
+      startTransition(() => {
+        navigate(href, 'push', options.scroll ?? true);
+      });
+    },
+    refresh: () => {
+      startTransition(() => {
+        dispatch({
+          type: ACTION_REFRESH,
+          origin: window.location.origin,
+        });
+      });
+    },
+    // @ts-ignore we don't want to expose this method at all
+    fastRefresh: () => {
+      if (process.env.NODE_ENV !== 'development') {
+        throw new Error(
+          'fastRefresh can only be used in development mode. Please use refresh instead.',
+        );
+      } else {
+        startTransition(() => {
+          dispatch({
+            type: ACTION_FAST_REFRESH,
+            origin: window.location.origin,
+          });
+        });
+      }
+    },
+  };
+
+  return routerInstance;
+}, [dispatch, navigate]);
+```
+
+아하! appRouter 변수는 그저 히스토리 api를 리액트 상태와 엮어둔 것이라는것을 예측할 수 있습니다.
+
+위에서 보이는 navigate() 함수역시 리액트 상태를 변경시키는 dispatch 함수를 반환하는 함수거든요
+
+# 아하.. next.js 는 context api로 상태를 관리하는구나
+
+라고 끝나면 시시할 것 같죠?
+
+리액트 상태랑 url을 어떻게 동기화하고 있을지를 찾아가봅시다.
+
+아래 코드는 넥스트가 사용하는 Router 클래스의 구현입니다.
+
+constructor 부분을 보면 브라우저 뒤로가기 ,앞으로가기에 대응할 수 있는
+
+popstate 이벤트 리스너를 달아주는 것을 볼 수 있습니다.
+
+<br/>
+** 토막상식 : 이벤트리스너는 여러개를 달면 단 순서대로 모든 리스너가 동작합니다. **
 
 packages/next/src/client/router.ts
 
@@ -110,81 +213,8 @@ export default class Router implements BaseRouter {
       )
       return
     }
-
-    // __NA is used to identify if the history entry can be handled by the app-router.
-    if (state.__NA) {
-      window.location.reload()
-      return
-    }
-
-    if (!state.__N) {
-      return
-    }
-
-    // Safari fires popstateevent when reopening the browser.
-    if (
-      isFirstPopStateEvent &&
-      this.locale === state.options.locale &&
-      state.as === this.asPath
-    ) {
-      return
-    }
-
-    let forcedScroll: { x: number; y: number } | undefined
-    const { url, as, options, key } = state
-    if (process.env.__NEXT_SCROLL_RESTORATION) {
-      if (manualScrollRestoration) {
-        if (this._key !== key) {
-          // Snapshot current scroll position:
-          try {
-            sessionStorage.setItem(
-              '__next_scroll_' + this._key,
-              JSON.stringify({ x: self.pageXOffset, y: self.pageYOffset })
-            )
-          } catch {}
-
-          // Restore old scroll position:
-          try {
-            const v = sessionStorage.getItem('__next_scroll_' + key)
-            forcedScroll = JSON.parse(v!)
-          } catch {
-            forcedScroll = { x: 0, y: 0 }
-          }
-        }
-      }
-    }
-    this._key = key
-
-    const { pathname } = parseRelativeUrl(url)
-
-    // Make sure we don't re-render on initial load,
-    // can be caused by navigating back from an external site
-    if (
-      this.isSsr &&
-      as === addBasePath(this.asPath) &&
-      pathname === addBasePath(this.pathname)
-    ) {
-      return
-    }
-
-    // If the downstream application returns falsy, return.
-    // They will then be responsible for handling the event.
-    if (this._bps && !this._bps(state)) {
-      return
-    }
-
-    this.change(
-      'replaceState',
-      url,
-      as,
-      Object.assign<{}, TransitionOptions, TransitionOptions>({}, options, {
-        shallow: options.shallow && this._shallow,
-        locale: options.locale || this.defaultLocale,
-        // @ts-ignore internal value not exposed on types
-        _h: 0,
-      }),
-      forcedScroll
-    )
+    // ... 대충 엄청 많은 구현이 포함되어있지만 분량 상 제거합니다.
+    // 궁금하신분은 직접 해당 파일을 열어보세요
   }
 }
 ```
@@ -203,7 +233,21 @@ export function createRouter(
 }
 ```
 
-packages.next/src/client
+그러면 저렇게 만들어진 라우터는 어떻게 쓰일까요?
+
+동일한 파일에서 createRouter 함수를 정의하고 내보내는것을 확인할 수 있습니다.
+
+ide 내부에서 이 Router 클래스의 참조 상태를 확인해보면
+
+마치 싱글톤처럼 관리되는 것을 볼 수 있는데
+
+오직 createRouter 함수에 의해서만 Router 클래스를 생성하는데
+
+이 createRouter 함수는 전체 애플리케이션을 통틀어 단 한번만 호출되는 것을 확인할 수 있어요
+
+당연히 한번만 써줘야할 것 같긴하지만... 아무튼 그렇습니다.
+
+packages/next/src/client
 
 ```tsx
 export let router: Router;
@@ -234,7 +278,16 @@ router = createRouter(initialData.page, initialData.query, asPath, {
 });
 ```
 
-https://github.com/vercel/next.js/blob/canary/packages/next/src/client/components/navigation.ts
+앞서 이야기한바와 같이 단 한번만 호출하는 부분이 궁금하다면 다음 파일에서 확인할 수 있는데요
+
+애플리케이션의 초기값과 앱시작을 위한 값들을 넘겨주어 router를 생성하는 것을 볼 수 있습니다.
+
+
+
+# 결론
+
+
+
 
 # 참고
 
@@ -245,3 +298,5 @@ https://developer.mozilla.org/en-US/docs/Web/API/History // mdn의 history
 https://www.daleseo.com/js-history-api/ // 달레님의 history api 설명
 
 https://github.com/vercel/next.js // next.js github repository
+
+https://github.com/vercel/next.js/blob/canary/packages/next/src/client/components/navigation.ts
