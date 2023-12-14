@@ -59,16 +59,19 @@ useEffect(() => {
 
 Web Share API는 사용자가 선택한 임의의 대상과 텍스트, 링크 및 기타 컨텐츠를 공유하기 위해 제안된 API입니다. 개발자는 **웹 어플리케이션 사용자에게 네이티브 환경과 동일한 공유 다이얼로그를 제공**할 수 있습니다.
 
-- 윈도우 환경에서 shareAPI를 실행했을 때, 
-![윈도우 환경에서 shareAPI를 실행했을 때, ](./window.png)
+### 윈도우 환경에서 shareAPI를 실행했을 때, 
+<img src="./window.png" width="600" height="600"/>
 
 
-- 안드로이드 환경에서 shar api 동작
-![안드로이드 환경에서 shar api 동작](./android.png)
+
+### 안드로이드 환경에서 shar api 동작
+<img src="./android.png" width="300" height="600"/>
 
 
-- shareApi가 적용되지 않는 경우 커스텀 share 박스 사용
-![shareApi가 적용되지 않는 경우 커스텀 share 박스 사용](./custom.png)
+
+### shareApi가 적용되지 않는 경우 커스텀 share 박스 사용
+<img src="./custom.png" width="300" height="600"/>
+
 
 
 해당 특징 이외에 shareAPI가 매력적이었던 점은 비동기 적으로 동작하다는 것입니다. **shareAPI의 반환값은 사용자가 공유하기 액션을 완료하면 resolve 될 Promiase가 반환**이 됩니다. 이점을 활용해서 공유시 새로운 앱이 실행되거나, 해당 브라우저 화면을 벗어나도, 공유가 완료되면 후속 작업을 처리할 수 있었습니다. 
