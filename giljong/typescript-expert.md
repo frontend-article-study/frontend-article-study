@@ -69,7 +69,6 @@ infer 키워드의 대표적인 유스케이스는 다음과 같은데요
 type UnWrappedPromise<T> = T extends Promise<infer U> ? U : never;
 
 type A = UnWrappedPromise<Promise<'hey'>>; // A === "hey"
-
 ```
 
 위 예제와 같이 T가 만약 Promise인 경우라면 프로미스의 반환타입을 infer 한뒤
@@ -78,12 +77,10 @@ type A = UnWrappedPromise<Promise<'hey'>>; // A === "hey"
 
 만약 이것을 다른 형태로 작성해보고싶다면 어떻게할 수 있었을까요?
 
-
 ```tsx
 type UnWrappedButNoInfer<T> = T extends Promise<T> ? T : never;
 
 type B = UnWrappedButNoInfer<Promise<'hey'>>;
-
 ```
 
 이렇게 작성하면 되지 않을까? 라고 생각할 수도 있습니다.
@@ -98,7 +95,6 @@ type B = UnWrappedButNoInfer<Promise<'hey'>>;
 type UnWrappedButNoInfer<T, U> = T extends Promise<U> ? U : never;
 
 type B = UnWrappedButNoInfer<Promise<'hey'>, 'hey'>;
-
 ```
 
 제네릭을 한개 더두는 것을 통해 동작하도록 할 수 있는데요
@@ -131,11 +127,22 @@ const createTextColor = (
 const result = createTextColor('red', '500');
 ```
 
+이제 간단하게 TextColor, TextColorSaturation 타입의 유니온만 추가해주면
+
+타입세이프하게 css 클래스를 생성해주는 생성함수를 얻을 수 있습니다.
 
 # 마치며
+
+이처럼 템플릿 리터럴 타입은 타입 추가, 삭제를 위해 여러 파일을 건드려야하는 수고를 없애고
+
+코어가 되는 하나의 타입만 관리하면 되는 형태로 타입을 만들 수 있다는 장점을 제공하는데요
+
+기억해두시고 잘 활용해보시면 좋을 것 같습니다.
 
 # 레퍼런스
 
 https://toss.tech/article/template-literal-types
 
 https://www.youtube.com/watch?v=TsYeBS6v4r8
+
+냠냠맨 머리
