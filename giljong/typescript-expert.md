@@ -61,6 +61,77 @@ const exampleString2: GenericType<'sdfs'> = 'hsfdl';
 
 # 조건식이 True일 때에는 infer 키워드를 사용할 수 있다.
 
+조건식이 참으로 평가되는 경우에는 infer 키워드를 통하여 타입을 추론할 수 있습니다.
+
+infer 키워드의 대표적인 유스케이스는 다음과 같은데요
+
+```tsx
+type UnWrappedPromise<T> = T extends Promise<infer U> ? U : never;
+
+type A = UnWrappedPromise<Promise<'hey'>>; // A === "hey"
+
+```
+
+위 예제와 같이 T가 만약 Promise인 경우라면 프로미스의 반환타입을 infer 한뒤
+
+반환 타입으로 사용하는 형식으로 프로미스 타입에서 반환 타입만을 추출할 수 있습니다.
+
+만약 이것을 다른 형태로 작성해보고싶다면 어떻게할 수 있었을까요?
+
+
+```tsx
+type UnWrappedButNoInfer<T> = T extends Promise<T> ? T : never;
+
+type B = UnWrappedButNoInfer<Promise<'hey'>>;
+
+```
+
+이렇게 작성하면 되지 않을까? 라고 생각할 수도 있습니다.
+
+실제로 다음과같이 타이핑을 하면 never 타입으로 추론되게 되는데요
+
+그 이유는 T 제네릭은 Promise<T>로 이미 확장이 가능하다는 것을 본 상태이기 때문입니다.
+
+따라서 이 예제는 성립될 수 없으며 이를 infer 키워드 없이 해결하기 위해서는 한개의 제네릭이 더 필요합니다.
+
+```tsx
+type UnWrappedButNoInfer<T, U> = T extends Promise<U> ? U : never;
+
+type B = UnWrappedButNoInfer<Promise<'hey'>, 'hey'>;
+
+```
+
+제네릭을 한개 더두는 것을 통해 동작하도록 할 수 있는데요
+
+이 방법의 경우에는 추론이 이루어지지 않기때문에 개발자가 일일히 타입을 지정해야한다는 문제가 발생하겠죠?
+
+infer 키워드는 이런 불편을 쉽게 해소시켜줍니다.
+
+그럼 이제 이것을 활용해서 심화예제를 만들어보겠습니다.
+
+# 심화 예제
+
+```tsx
+type TextColor = 'red' | 'blue' | 'wooeunhe' | 'primary';
+type TextColorSaturation = '100' | '200' | '300' | '400' | '500' | '600';
+
+type ExtractTextColor<WideS extends string> =
+  WideS extends `text-${infer TColor}-${TextColorSaturation}` ? TColor : WideS;
+
+type ExtractTextSaturation<Satu extends string> =
+  Satu extends `text-${TextColor}-${infer TSatu}` ? TSatu : Satu;
+
+const createTextColor = (
+  color: ExtractTextColor<TextColor>,
+  saturation: ExtractTextSaturation<TextColorSaturation>,
+) => {
+  return `text-${color}-${saturation}` as const;
+};
+
+const result = createTextColor('red', '500');
+```
+
+
 # 마치며
 
 # 레퍼런스
