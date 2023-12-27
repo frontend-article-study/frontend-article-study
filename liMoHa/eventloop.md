@@ -19,7 +19,7 @@ setTimeout(function test(){
 
 웹 브라우저의 기본이 되는 구조는 다음과 같습니다.
 
-<img src="imgs/1.png" width="500px" />
+<img src="imgs/eventloop/1.png" width="500px" />
 
 `User Interface`: 검색창, 뒤로가기 버튼, 새로고침 버튼, 북마크 등 브라우저와 유저가 상호작용할 수 있는 영역을 의미합니다.
 
@@ -31,7 +31,7 @@ setTimeout(function test(){
 
 `UI Backend`: 스타일링 되지 않고 화면에 표시되는 요소들을 그립니다.
 
-<img src="imgs/2.png" width="800px">
+<img src="imgs/eventloop/2.png" width="800px">
 
 `Data persistence`: 새로고침 했을 때 데이터가 사라지지 않도록 보관하는 영역입니다. 로컬 스토리지, 세션 스토리지, 쿠키 등이 존재합니다.
 
@@ -41,7 +41,7 @@ setTimeout(function test(){
 
 자바스크립트 엔진 내부는 메모리 힙과 콜스택으로 구성됩니다. 자바스크립트 엔진이 자바스크립트 소스를 해석할 때, 메모리 힙에는 변수, 배열, 객체 같은 모든 값들이 저장됩니다. 콜스택에는 함수가 호출 되는 시점을 저장하는데, 이를 프레임이라고 부릅니다.
 
-<img src="imgs/3.jpeg" width="600px">
+<img src="imgs/eventloop/3.jpeg" width="600px">
 
 ```jsx
 function a(){
@@ -97,13 +97,13 @@ console.log('end');
 
 **마지막으로 setTimeout() 함수가 언제 호출이 되어 3초가 지났는진 모르겠지만** 3초 후 cb 콜백 함수가 콜스택에 저장됩니다. 그 안에 있는 console.log(’3초 후 실행’)함수가 호출되어 콜스택에 저장되고 화면에 3초 후 실행 출력 후 콜스택에서 제거 후, cb 함수 역시 제거 됩니다.
 
-<img src="imgs/4.jpeg" width="600px">
+<img src="imgs/eventloop/4.jpeg" width="600px">
 
 ## Event Loop & Task Queue
 
 web api와 javascript 표준 문법으로 작성된 소스는 동작하는 방식이 다릅니다.
 
-<img src="imgs/5.jpeg" width="600px">
+<img src="imgs/eventloop/5.jpeg" width="600px">
 
 자바스크립트 런타임 환경인 web browser 내에는 **event loop**와 **task queue**라는 것이 추가로 존재합니다.
 
@@ -126,7 +126,7 @@ setTimeout(function cb(){
 console.log('end');
 
 ```
-<img src="imgs/6.jpeg" width="600px">
+<img src="imgs/eventloop/6.jpeg" width="600px">
 
 좀 더 자세한 예시를 살펴보겠습니다.
 
@@ -142,7 +142,7 @@ addEventListener("keydown", function cb2(event){
 });
 ```
 
-<img src="imgs/6.jpeg" width="600px">
+<img src="imgs/eventloop/6.jpeg" width="600px">
 
 마지막으로 발표의 주제였던 setTimeout() 함수의 콜백은 정말 지정한 시간 후에 실행될까?에 대한 결론을 내려보겠습니다.
 
