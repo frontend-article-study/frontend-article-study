@@ -26,7 +26,7 @@ import { useState } from 'react';
 function withLogger(WrappedComponent) {
   return function WithLogging(props: {url: string}) {
    const [data, setData] = useState('')
-    console.log(data)
+
    React.useEffect(()=>{
       (async()=>{
         const json = await fetch(props.url)
