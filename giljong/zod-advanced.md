@@ -65,19 +65,16 @@ type이 number인 인풋에서 받은 숫자? string입니다.
 
 ```tsx
 const onChange = (event) => {
-    const validate = z.number().parse(event.target.value) // 절대 통과 불가능..
-}
-
+  const validate = z.number().parse(event.target.value); // 절대 통과 불가능..
+};
 ```
 
 유감이네요.. 그럼 어떻게 해야할까요?
 
-
 ```tsx
 const onChange = (event) => {
-    const validate = z.string().parse(event.target.value) // 통과!
-}
-
+  const validate = z.string().parse(event.target.value); // 통과!
+};
 ```
 
 이렇게 통과하도록 한뒤 세부적인 검증은 zod에서 제공하는 refine , superRefine 메서드를 이용해야합니다.
@@ -88,8 +85,11 @@ const onChange = (event) => {
 
 ```tsx
 const onChange = (event) => {
-    const validate = z.string().refine(data => Number(data) > 10).parse(event.target.value)
-}
+  const validate = z
+    .string()
+    .refine((data) => Number(data) > 10)
+    .parse(event.target.value);
+};
 ```
 
 refine 메서드는 내부에 콜백함수를 집어넣으며 이 콜백함수의 첫번째 인수에는 검증중인 값이 들어가있습니다.
@@ -107,13 +107,15 @@ zod는 이런식으로 검증을 순차적으로 실행할 수 있도록 도와�
 ### 이스터에그
 
 ```tsx
-const validated = z.string().refine(data => Number(data) >= 0).parse("")
+const validated = z
+  .string()
+  .refine((data) => Number(data) >= 0)
+  .parse('');
 ```
 
 위 밸리데이션은 통과됩니다.
 
 왜냐하면 "" 와 같은 빈문자열이 Number() 안에 들어가면 반환값은 0이거든요.. ㅎㅎ;;
-
 
 ## 그런데 실제로 이 값을 사용할때에는 number여야하는 경우에는요?
 
@@ -122,13 +124,91 @@ const validated = z.string().refine(data => Number(data) >= 0).parse("")
 이렇게 사용할 수 있어요
 
 ```tsx
-const hi = z.string().refine(data => Number(data) > 10).transform(data => Number(data)).parse("100") 
+const hi = z
+  .string()
+  .refine((data) => Number(data) > 10)
+  .transform((data) => Number(data))
+  .parse('100');
 // 이때 hi의 타입은 number입니다.
 ```
 
 이렇듯 transform 을 이용하여 적절히 값을 변환시켜주는 작업도 수행할 수 있습니다.
 
+# react-hook-form과의 통합
 
+앞서 설명드렸듯이 zod를 프론트엔드에서 사용하는 경우에는 주로 폼밸리데이션을 위한 경우가 많습니다.
+
+간단한 예시 코드를 통해 어떻게 사용하게되는지 보여드릴게용
+
+```tsx
+npm i react-hook-form zod @hookform/resolvers
+```
+
+hookform과 zod 그리고 그 둘을 통합시켜줄 리졸버를 설치합니다.
+
+```tsx
+import * as z from 'zod';
+import ZodResolver from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
+const zunSchema = z.object({
+  sung: z.string(),
+  zi: z.string().optional(),
+  hyun: z.string().refine((data) => Number(data) >= 1, {
+    message: '0이상의 숫자를 입력하세요',
+  }),
+});
+
+type ZunSchemaType = z.infer<typeof zunSchema>;
+
+const ZunComponent = () => {
+  const zunForm = useForm<ZunSchemaType>({
+    resolver: zodResolver(zunSchema),
+  });
+};
+
+return (
+  <div>
+    <input {...zunForm.register('sung')} />
+    <input {...zunForm.register('zi')} />
+    <input {...zunForm.register('hyun')} />
+  </div>
+);
+```
+이런 형태로 사용해줄 수 있습니다.
+
+?? 아니 react-hook-form에서도 밸리데이션 지원해주잖아요 라고 생각할수도 있지만
+
+이렇게 리졸버를 통해 런타임 밸리데이터 라이브러리와 훅폼을 결합시키는것은
+
+밸리데이션 논리를 명확하게 외부로 분리시킬 수 있도록 도움을 주고
+
+또한 더욱 강력한 검증 방법과 검증 이후 값 변환, 디폴트값 설정등의 편의기능을 지원해준다는 점이 주목할만합니다.
+
+
+## 와 zod 짱이다 당장 써야지
+
+하지만 zod는 번들사이즈가 필요성에 비해서는 조금 크다는 단점이 있습니다.
+
+unpackedsize 기준으로
+
+@hookform/resolver는 555 kB
+
+zod는 628 kB에 달하는 번들사이즈를 가집니다.
+
+
+감이 안온다구요?
+
+react의 unpackedsize는 316 kB 입니다
+
+zustand, redux ,jotai 등등 주로 사용되는 전역 상태관리라이브러리들의 평균
+
+unpackedsize 역시 300~400 kb 선이고요!
+
+
+폼을 많이 쓰지 않는 프로젝트에서 단순 폼밸리데이션을 위해서 사용하기에는 조금 무겁다는 인상이 들 수 있어요
+
+(그래도 저는 애용합니다.)
 
 # 마치며
 
@@ -139,4 +219,3 @@ const hi = z.string().refine(data => Number(data) > 10).transform(data => Number
 리액트 훅폼과 결합하여 사용하면 정말 빡빡한 유효성검사도 선언적으로 잘 관리할 수 있게되어
 
 개인적으로 애용하는 라이브러리에요!
-
