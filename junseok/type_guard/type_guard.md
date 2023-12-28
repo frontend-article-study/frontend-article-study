@@ -233,6 +233,60 @@ const checkFood = (name: FoodKey): number => {
 
 `**Exhaustiveness Checking`** 방법을 활용해서 예상치 못한 런타임 에러를 방지하고 요구사항 변경시 생길 수 있는 위험을 줄일 수 있습니다. 타입에 대한 철저한 분기에서 유용하게 활용할 수 있습니다.
 
+## NonNullable 유틸리티 타입 활용한 타입 가드 구성하기
+
+[Documentation - Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html#nonnullabletype)
+
+is 키워드와 `NonNullable` 유틸리티 타입을 활용해서 undefined와 null 값을 처리할 수 있습니다. 
+
+`NonNullable` 타입은 제네릭으로 받는 T가 null 또는 undefined 일때 never 또는 T를 반환합니다. 
+
+```tsx
+type NonNullable<T> = T extends null | undefined ? never : T;
+```
+
+해당 유틸리티 타입을 활용해서  해당 인자가 null 혹은 undefined인지 검사하는 타입 가드 함수를 만들 수 있습니다.
+
+```tsx
+function nonNullable<T>(value : T): value is NonNullable<T>{
+	return value !== null && value !== undefined
+}
+```
+
+해당 처리는 API 작업에서 활용할 수 있습니다.  아래의 api 처리 코드는 에러가 없을 시 해당 데이터를 그렇지 않은 경우 null을 반환합니다.
+
+```tsx
+async function getApiWhitToken<T>(method: ValueOf<Method>, jwt: string) {
+  try {
+    const data = await instance.get<T>(`${method}`, {
+      headers: {
+        '-user-token': jwt,
+      },
+    });
+    return data.data;
+  } catch () {
+    return null
+  }
+}
+```
+
+이때 반환되는 데이터 형식은 `T | null` 입니다.  만약 해당 api 처리를 배열 내의 모든 데이터 `[{nickname: “son”, token: “1kfoq”}, {nickname: “sn”, token: “1kfoqc”}, {nickname: “yabi”, token: “1kfoqqw”}]` 에 대해서 일괄적으로 처리할 경우 반환된 배열에 대해서 모두 if 문을 통해 타입 가드를 해야합니다. 하지만 위의 noneNullable을 통해 효율적으로 데이터를 처리할 수 있습니다. 
+
+```tsx
+const data = [
+    { nickname: 'son', token: '1kfoq' },
+    { nickname: 'sn', token: '1kfoqc' },
+    { nickname: 'yabi', token: '' },
+  ];
+  const result = await Promise.all(
+    data.map(info =>
+      getApiWhitToken<AnswerData>(END_POINT.getAnswerVisiting, info.token),
+    ),
+  );
+  const sucessData = result.filter(nonNullable); // 데이터의 결과가 null인 값을 모두 제거
+```
+
+
 ## Reference
 
 우아한 타입스크립트
