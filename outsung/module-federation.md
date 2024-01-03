@@ -98,10 +98,11 @@ federation({
 이제 빌드를 해보면, 
 
 exposes가 있는 b, c 빌드 파일들
-[사진1]
+<img width="384" alt="사진 1" src="https://github.com/outsung/frontend-article-study/assets/40460655/16d3f5c3-b07c-45b5-991d-c424be8b1bf7">
 
 exposes가 없는 a 빌드 파일들
-[사진2]
+<img width="386" alt="사진 2" src="https://github.com/outsung/frontend-article-study/assets/40460655/1ea53826-363a-45cd-8054-91cb592870bc">
+
 
 이렇게 번들이 나옵니다.
 
@@ -114,12 +115,13 @@ b는 `http://localhost:3001/assets/remoteEntry.js` 이걸 가져와야한다.
 
 실제로 b 서비스에서 `vite preview` 하고 `http://localhost:3001/assets/remoteEntry.js` 해당 주소로 접근 해보면, 
 
-[사진3]
+<img width="1680" alt="사진 3" src="https://github.com/outsung/frontend-article-study/assets/40460655/2ff32b90-3ffb-49dc-bd04-cfe80afbe213">
+
 이렇게 보입니다.
 
 그럼 `http://localhost:3000/` 로 접근해서 실제 서비스(a)를 보면,
 
-[사진4]
+<img width="1501" alt="사진 4" src="https://github.com/outsung/frontend-article-study/assets/40460655/a3a4e56d-67f2-4384-834f-1e09790b57a3">
 
 이렇게 순차적으로 번들을 가져옵니다.
 
@@ -140,7 +142,7 @@ const App = React.lazy(() => import('c/App'));
 
 이렇게 사용하긴 했지만 `Suspense`를 사용하지 않아서 실제로는 로딩이 오래 걸리고, 모든 a -> b -> c 까지 번들이 모두 로드 된 이후 화면이 보입니다.
 
-[사진 5]
+<img width="1497" alt="사진 5" src="https://github.com/outsung/frontend-article-study/assets/40460655/fe294f56-f063-4076-8586-0605591e70f3">
 
 `Suspense`를 쓰면 좋습니다..
 
