@@ -30,9 +30,9 @@
 
 이렇게 코드 구조가 제공됩니다.
 
-[사진1]
+<img width="263" alt="사진1" src="https://github.com/outsung/frontend-article-study/assets/40460655/bd82f214-10b5-421f-8c85-6fe33268020a">
 
-[사진2]
+<img width="1382" alt="사진2" src="https://github.com/outsung/frontend-article-study/assets/40460655/4d2e0ee4-cf33-4409-82f0-40a642e9de22">
 
 ### Main process
 
