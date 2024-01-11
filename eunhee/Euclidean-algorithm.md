@@ -19,7 +19,8 @@ greatestNum(1112, 695);
 ```
 
 ## 최소공배수는?
-
+A,B의 최대공약수 = G, 최소공배수 = L 라고 하면  A = Ga, B = Gb (a와 b는 서로소.) 따라서 최소 공배수 L = a*b/G 
+<img src="./img/Euclidean3.png" alt="유클리드 호제 설명2"  width="500" >
 ```js
 function leastCommonMultipleOfTwo(a, b) {
   return (a * b) / greatestNum(a, b);
