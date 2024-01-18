@@ -77,17 +77,17 @@ frame, iframe, embed 등 내부에서 페이지 렌더링을 허용할지 설정
 </div>
 ```
 
-결과는 아래와 같다.
+결과는 아래와 같습니다.
 
 ![img3](../asset/exploring-HTTP-security-headers/3.png)
 
-naver에는 X-Frame-options을 통해, 외부에서 iframe 삽입을 막았기 때문에 확인할 수 없다.
+naver에는 X-Frame-options을 통해, 외부에서 iframe 삽입을 막았기 때문에 확인할 수 없습니다.
 
-wemix.fi도 막혀있다. 설정을 보면 X-Frame-Options가 SAMEORIGIN인 것을 확인할 수 있다.
+wemix.fi도 막혀있다. 설정을 보면 X-Frame-Options가 SAMEORIGIN인 것을 확인할 수 있습니다.
 
 ![img4](../asset/exploring-HTTP-security-headers/4.png)
 
-허용된 사이트는 아래처럼 잘 나온다.
+허용된 사이트는 아래처럼 잘 나옵니다.
 
 ![img5](../asset/exploring-HTTP-security-headers/5.png)
 
@@ -281,9 +281,11 @@ https://securityheaders.com/
 ![img8](../asset/exploring-HTTP-security-headers/8.png)
 
 **적용후**
-![img9](../asset/exploring-HTTP-security-headers/8.png)
+![img9](../asset/exploring-HTTP-security-headers/9.png)
 
 간단한 코드 설정만으로도 웹 보안을 신경 쓸 수 있습니다!
+
+<br />
 
 ## 그 외에 찾아보면 좋은 것
 
