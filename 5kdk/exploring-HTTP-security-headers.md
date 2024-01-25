@@ -2,8 +2,8 @@
 
 <div style="width: 520px;">
 
-![img1](../asset/exploring-HTTP-security-headers/1.png)
-![img2](../asset/exploring-HTTP-security-headers/2.jpg)
+![img1](./asset/exploring-HTTP-security-headers/1.png)
+![img2](./asset/exploring-HTTP-security-headers/2.jpg)
 
 </div>
 
@@ -79,17 +79,17 @@ frame, iframe, embed 등 내부에서 페이지 렌더링을 허용할지 설정
 
 결과는 아래와 같다.
 
-![img3](../asset/exploring-HTTP-security-headers/3.png)
+![img3](./asset/exploring-HTTP-security-headers/3.png)
 
 naver에는 X-Frame-options을 통해, 외부에서 iframe 삽입을 막았기 때문에 확인할 수 없다.
 
 wemix.fi도 막혀있다. 설정을 보면 X-Frame-Options가 SAMEORIGIN인 것을 확인할 수 있다.
 
-![img4](../asset/exploring-HTTP-security-headers/4.png)
+![img4](./asset/exploring-HTTP-security-headers/4.png)
 
 허용된 사이트는 아래처럼 잘 나온다.
 
-![img5](../asset/exploring-HTTP-security-headers/5.png)
+![img5](./asset/exploring-HTTP-security-headers/5.png)
 
 iframe을 통한 공격으로는, **클릭재킹(Clickjacking)** 이라는 것이 있다.
 
@@ -164,7 +164,7 @@ Content-type 헤더에서 제공하는 유형이 브라우저에 의해 변경�
 
 아래는 일반적인 API 요청이다. application/json으로 되어 있기에, object 형태로 데이터를 해석해 준다.
 
-![img6](../asset/exploring-HTTP-security-headers/6.png)
+![img6](./asset/exploring-HTTP-security-headers/6.png)
 
 만약, 누군가가 .jpg라는 확장자로 파일을 전송했는데, 실제로는 jpg가 아니라 스크립트의 내용일 수 있다. 여기서 X-Content-Type-options가 잘못된 설정으로 인해, jpg안의 내용을 확인 후 스크립트 내용을 실행할 수도 있게 된다.
 
@@ -278,10 +278,10 @@ https://securityheaders.com/
 
 **적용전**
 
-![img8](../asset/exploring-HTTP-security-headers/8.png)
+![img8](./asset/exploring-HTTP-security-headers/8.png)
 
 **적용후**
-![img9](../asset/exploring-HTTP-security-headers/9.png)
+![img9](./asset/exploring-HTTP-security-headers/9.png)
 
 간단한 코드 설정만으로도 웹 보안을 신경 쓸 수 있다!
 
