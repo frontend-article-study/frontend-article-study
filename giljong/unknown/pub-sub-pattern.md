@@ -107,12 +107,12 @@ export type EventHandler<
 export type EventHandlersMap<
   Event extends EventCreator<string, {}> = EventCreator<string, {}>,
 > = { [K in Event['type']]?: Array<EventHandler<Event>> };
+
 ```
 
 ## core class
 
 ```tsx
-import { objectEntries } from '@/src/@shared/utils/object/object-entries';
 import { EventCreator, EventHandler, EventHandlersMap } from './type';
 
 export class PubSubManager<Event extends EventCreator<string, {}>> {
@@ -142,7 +142,10 @@ export class PubSubManager<Event extends EventCreator<string, {}>> {
   }
 
   initiate(handlerObject: EventHandlersMap<Event>) {
-    const entries = objectEntries(handlerObject);
+    const entries = Object.entries(handlerObject) as [
+      Event['type'],
+      EventHandlersMap<Event>[Event['type']],
+    ][];
     entries.forEach(([eventType, handlers]) => {
       handlers?.forEach((handler) => {
         this.subscribe(eventType, handler);
@@ -154,6 +157,7 @@ export class PubSubManager<Event extends EventCreator<string, {}>> {
     this.subscribers = {};
   }
 }
+
 ```
 
 ```tsx
