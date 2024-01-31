@@ -98,6 +98,47 @@ worker.addEventListener('message', (e) => {
 => 스레드 ah는 0 + 2를 하고 마지막으로 저장했으니 eunhe는 2
 
 
+# 조졌내요 이거 어케 씀?
 
-## 비순차 저장
+공유 메모리를 쓰게되면 이런 dog 같은 문제들에 직면하게 됩니다.
 
+따라서 자바스크립트는 이런 문제들을 처리하기 위해 Atomics 객체를 제공하는데요
+
+순차적 / 동기적인 방식으로 공유 메모리를 처리할 수 있게 도와주는 기능이라고 생각하시면 되겠습니다.
+
+
+```ts
+const sab = new SharedArrayBuffer(1024);
+const ta = new Uint8Array(sab);
+
+ta[0]; // 0
+ta[0] = 5; // 5
+
+Atomics.add(ta, 0, 12); // 5
+Atomics.load(ta, 0); // 17
+
+Atomics.and(ta, 0, 1); // 17
+Atomics.load(ta, 0); // 1
+
+Atomics.compareExchange(ta, 0, 5, 12); // 1
+Atomics.load(ta, 0); // 1
+
+Atomics.exchange(ta, 0, 12); // 1
+Atomics.load(ta, 0); // 12
+
+Atomics.isLockFree(1); // true
+Atomics.isLockFree(2); // true
+Atomics.isLockFree(3); // false
+Atomics.isLockFree(4); // true
+
+Atomics.or(ta, 0, 1); // 12
+Atomics.load(ta, 0); // 13
+
+Atomics.store(ta, 0, 12); // 12
+
+Atomics.sub(ta, 0, 2); // 12
+Atomics.load(ta, 0); // 10
+
+Atomics.xor(ta, 0, 1); // 10
+Atomics.load(ta, 0); // 11
+```
