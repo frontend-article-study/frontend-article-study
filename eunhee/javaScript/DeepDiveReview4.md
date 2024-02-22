@@ -121,3 +121,73 @@ console.log(object1.property2); //22
 
 Object.freeze 메서드로 객체를 동결해도 중첩 객체까지 동결시킬수 없다.
 따라서 중첩 객체까지 동결하기 위해서는 재귀적으로 객체를 동결시켜야 한다.
+
+# 17장 생성자 함수에 의한 객체 생성
+
+하나의 객체를 생성시-> 객체 리터럴
+동일한 프로퍼티 구조의 여러개 객체 생성시 -> 생성자 함수
+
+생성자함수는 일반 함수와 동일한 방법으로 생성자 함수를 정의하고 new 연산자와 함께 호출하면 해당 함수는 생성자 함수로 동작한다.
+
+**this 바인딩 : 함수 호출 방식에 따라 동적으로 결정된다.**
+
+## 생성자 함수의 인스턴스 생성 과정
+
+1. 인스턴스 생성과 this 바인딩
+   암묵적으로 빈 객체 생성 및 this에 바인딩(식별자와 값을 연결함)
+   -> 함수 몸체의 코드가 한 줄씩 실행되는 런타임 이전에 실행됨.
+
+2. 인스턴스 초기화
+3. 인스턴스 반환 : 완성된 인스턴스가 바인딩된 this 를 암묵적으로 반환
+
+- 다른 객체를 명시적으로 반환시 그 객체가 반환되며 원시값 반환시 원시값 무시, this 가 반환됨
+
+함수는 일반 객체가 가지고 있는 내부 슬롯과 내부 메서드+ [[Environments]],[[FormalParameters]]등의 내부 슬롯과 [[Call]] ,[[Construct]] 를 가진다.
+
+### 함수 종류
+
+callable 이자 non-constructor : 일반함수로서만 호출할 수 있는 함수 객체 -> [[Call]] 만 있음
+callable 이자 constructor : 생성자 함수로서 호출할 수 있는 함수 객체 -> [[Call]],[[Construct]] 가지고 있음
+
+함수 구분은 함수 정의 방식에 따라 구분합니다.
+non-constructor : 메서드(es6축약표현), 화살표함수
+constructor : 함수 선언문. 함수 표현식. 클래스
+
+**생성자 함수를 일반적인 함수로서 호출하면 함수 내부의 this는 전역 객체 window를 가리킨다.**
+
+## new.target 와 스코프 세이프 생성자 패턴
+
+생성자 함수가 new 연산자없이 호출되는 것을 방지하는 메타 프로퍼티
+
+**new 연산자와 함께 생성자 함수로서 호출되면 함수 내부의 new.target은 함수 자신을 가리킨다. new 연산자없이 일반함수로서 호출된 내부의 new.target은 undefined 다.**
+
+```js
+function Circle(radius) {
+  if (!new.target) {
+    return new Circle(radius);
+  }
+  this.radius = radius;
+  this.getDiameter = function () {
+    return 2 * this.radius;
+  };
+}
+
+const circle = Circle(5); // new 없이 호출해도 생성자함수로 호출됨
+```
+
+스코프 세이프 생성자 패턴
+
+```js
+function Circle(radius) {
+  if (!(this instanceof Circle)) {
+    // new 연산자와 함께 호출되지 않았다면 this는 window 를 가리키고 circle 과 연결되지 않는다.
+    return new Circle(radius);
+  }
+  this.radius = radius;
+  this.getDiameter = function () {
+    return 2 * this.radius;
+  };
+}
+
+const circle = Circle(5); // new 없이 호출해도 생성자함수로 호출됨
+```
