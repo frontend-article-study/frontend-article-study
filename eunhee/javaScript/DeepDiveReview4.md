@@ -69,7 +69,7 @@ console.log(foo); //1
 
 writable은 우리가 알고 있듯이 할당연산자 = 로 속성값을 변경하는 일을 합니다. 하지만 configurable 은 속성 Attribute의 재정의가 가능한지 여부를 판단하는 일 맡는 다는 것에 차이가 있습니다. Attribute 값 중 속성값을 변경하는 value 가 있어 configurable 개념이 writable 보다 깊은 개념이지만 **configurable:false 이고 writable : true 일때는 값 변경과 writable 프로퍼티 어트리뷰트 값 변경이 가능한 걸 보아 우선순위는 writable로 높다는 것을 알 수 있습니다.**
 
-주의해야할 것은 **프로퍼티의 프로퍼티 어트리뷰트 값, writable를 false 처리 했다면 이후 수정시 에러가 나지 않고 수정이 되지 않는 다는 것입니다.(configurable:false 처리도 동일) 다만 strict mode일경우 에러를 반환합니다.**
+주의해야할 것은 **프로퍼티의 프로퍼티 어트리뷰트 값, writable를 false 처리 했다면 이후 수정시 에러가 나지 않고 수정이 되지 않는 다는 것입니다.(configurable:false 처리때 삭제시도시 무시) 다만 strict mode일경우 에러를 반환합니다. 근데 [[configurable]]이 false 인 해당 프로퍼티 재정의 시도시 에러가 발생합니다.**
 또한 단순히 프로퍼티를 추가했다면(점표기법등) 프로퍼티 어트리뷰트의 값은 전부 true 처리 되지만 프로퍼티 어트리뷰트 재정의시 특정 프로퍼티 어트리뷰트값을 작성하지 않는다면,즉 디스크립터객체의 프로퍼티를 누락시키면 undefined, false (기본값)처리 됩니다.
 
 ```js
@@ -110,3 +110,14 @@ console.log(object1.property2); //22
 3. 프로토타입 체인에서 프로퍼티 검색
 4. 검색한 프로퍼티 fullName이 데이터 프로퍼티인지, 접근자 프로퍼티인지 확인
 5. 접근자 프로퍼티 fullName의 프로퍼티 어트리뷰트 [[Get]]의 값 즉 getter 함수를 호출 -> 결과 반환
+
+## 객체 변경 금지
+
+![객체확장금지이미지](./img/preventExtensions_seal_freeze.png)
+
+확장가능한 객체인지 : Object.isExtensible()
+읽기 쓰기만 가능한 밀봉된 객체인지 : Object.isSealed()
+읽기만 가능한 동결된 객체인지 :Object.isFrozen()
+
+Object.freeze 메서드로 객체를 동결해도 중첩 객체까지 동결시킬수 없다.
+따라서 중첩 객체까지 동결하기 위해서는 재귀적으로 객체를 동결시켜야 한다.
