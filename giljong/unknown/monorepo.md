@@ -102,13 +102,45 @@ yarn workspace 만으로 모노레포를 구축하는 경우도 심심찮게 찾
 
 Nx는 DX, CI 성능 최적화에 집중하는 모노레포 도구입니다.
 
-로컬, 원격 캐싱을 도구 차원에서 지원하며 매우 흥미로운 점으로 Nx 도구 차원에서
+로컬, 원격 캐싱을 도구 차원에서 지원하고
 
-Module Federation을 지원한다는 점을 들 수 있습니다.
+version 14 부터 Nx 도구 차원에서 Module Federation을 지원한다는 점이 흥미롭습니다.
 
-Module Federation의 구현 자체는 Webpack을 사용하며 이를 좀 더 쓰기 쉬운 형태로 래핑한 api를 제공하는데요
+Module Federation의 구현 자체는 Webpack을 사용하며 이를 좀 더 쓰기 쉬운 형태로 래핑한 api를 제공하는 형태입니다.
 
 
+3. turborepo
 
-## 어떤 
+turborepo는 vercel에서 지원하는 모노레포 도구입니다.
 
+로컬 및 원격 캐싱을 도구 차원에서 지원하고 대부분의 configuration이 이미 완성된 형태로 제공한다는 특징이 있습니다.
+
+다만 추상화가 많이 입혀져 캐싱 동작을 디버깅하는 게 쉽지 않으며 모든 기능을 다 사용하기 위해선 vercel에 종속되기도 합니다.
+
+패키지 매니저에 대한 지원은 조금 아쉬운 면이 있는데요
+
+yarnberry의 pnp 기능이 지원되지 않는 상태이며 모든 패키지매니저를 지원하긴 하지만 pnpm을 가장 권장하는 형태입니다.
+
+
+4. rush
+
+rush는 microsoft에서 유지관리하는 모노레포 도구입니다.
+
+변경된 패키지만 다시 빌드할 수 있도록 하는 incremental builds를 지원하는 점이 특징인데요
+
+rush는 모노레포 도구인 rush 뿐만아니라 같은 생태계내에서 rushstack이라고 불리는 여러가지 도구들을 통하여
+
+생태계의 도움을 받을 수 있습니다.
+
+![monorepo](../asset/monorepo1.png)
+
+# 마치며
+
+도구가 너무 많아요 흑흑
+
+
+# 레퍼런스
+
+https://medium.com/mildang/rush%EB%A1%9C-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EB%AA%A8%EB%85%B8%EB%A0%88%ED%8F%AC-%EB%8F%84%EC%9E%85%EA%B8%B0-5da0c5bc9b30
+
+https://monorepo.tools/
